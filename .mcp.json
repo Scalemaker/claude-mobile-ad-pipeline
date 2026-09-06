@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "higgsfield": {
+      "type": "http",
+      "url": "https://mcp.higgsfield.ai/mcp"
+    },
+    "ki-kennzeichnung": {
+      "type": "http",
+      "url": "https://ki-kennzeichnung-api.vercel.app/api/mcp"
+    }
+  }
+}

@@ -1,0 +1,11 @@
+.env
+.claude/settings.local.json
+runs/*
+!runs/.gitkeep
+brand/*
+!brand/_template/
+!brand/README.md
+*.mp4
+*.mov
+.DS_Store
+__pycache__/
