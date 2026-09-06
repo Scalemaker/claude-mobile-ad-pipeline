@@ -69,6 +69,16 @@ Drei Wege, alle drei funktionieren heute, keiner braucht einen Trick. Ausführli
 2. **Claude-App mit Projekt.** Den Prompt aus `prompts/orchestrator-system-prompt.md` als Projektanweisung, die Markendateien als Projektwissen, Higgsfield und KI-Kennzeichnung als Connectoren. Läuft komplett am Handy, ohne Mac.
 3. **Routine.** Ein Cloud-Lauf zu fester Uhrzeit, der eine Watchlist an Ads abarbeitet und dir die Briefings zur Freigabe hinlegt.
 
+## So sieht die Prüfung aus
+
+![Kontaktblatt eines gekennzeichneten Testclips](docs/kontaktblatt-beispiel.jpg)
+
+Grün ist die nutzbare Reels-Zone, rot die Aktionsleiste, links oben das EU-Icon, gesetzt über den KI-Kennzeichnung-MCP. Der Clip dazu liegt als `docs/safe-zone-testclip-labeled.mp4` im Repo, die Rohfassung daneben. Probier es aus:
+
+```bash
+scripts/contact-sheet.sh docs/safe-zone-testclip-labeled.mp4
+```
+
 ## Was diese Pipeline von der Vorlage unterscheidet
 
 Die Idee, eine Wettbewerber-Ad zu zerlegen und um das eigene Produkt neu zu bauen, ist nicht neu. Drei Dinge sind hier anders:
