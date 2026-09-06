@@ -7,5 +7,7 @@ brand/*
 !brand/README.md
 *.mp4
 *.mov
+!examples/stur-run/final/*.mp4
+!docs/*.mp4
 .DS_Store
 __pycache__/

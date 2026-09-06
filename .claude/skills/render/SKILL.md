@@ -1,9 +1,9 @@
 ---
 name: render
-description: Rendert das freigegebene Storyboard über den Higgsfield-MCP in fünf Format-Varianten (UGC, Cinematic, Reaction, Mirror-Hook, Split-Screen) als 9:16-Clips. Zeigt vorher den Preis und wartet auf das Wort freigeben. Für Varianten aus einem eigenen Quellclip lädt er stattdessen den Ad-Multiplier-Workflow.
+description: Rendert das freigegebene Storyboard in fünf Format-Varianten (UGC, Cinematic, Reaction, Mirror-Hook, Split-Screen) als 9:16-Clips, wahlweise über den Higgsfield-MCP oder über fal.ai (Seedance 2.0). Zeigt vorher den Preis und wartet auf das Wort freigeben. Für Varianten aus einem eigenen Quellclip lädt er stattdessen den Ad-Multiplier-Workflow.
 ---
 
-# /render --marke <marke> [--formate ugc,cinematic,reaction,mirror,split] [--quelle <clip>]
+# /render --marke <marke> [--provider higgsfield|fal] [--formate ugc,cinematic,reaction,mirror,split] [--quelle <clip>]
 
 ## Voraussetzung
 
@@ -20,6 +20,16 @@ description: Rendert das freigegebene Storyboard über den Higgsfield-MCP in fü
 7. **Zeigen.** Ein einziger Aufruf `show_generation_by_ids` mit allen fünf. Ergebnis-URLs in `render.json` ergänzen.
 8. **Fehler.** Ein Job mit Status failed: genau einmal mit demselben Prompt neu einreichen. Scheitert er wieder, das Format als ausgefallen melden und mit den anderen weitermachen. Nie einen laufenden Job neu einreichen.
 9. Wenn Remote Control verbunden ist: Push „Render fertig, <n> von 5 Clips. Weiter mit /label."
+
+## Route C · fal.ai statt Higgsfield (`--provider fal`)
+
+Gleiche Prompts, anderes Modell. Sinnvoll, wenn kein Higgsfield-Guthaben da ist oder der Operator ein bestimmtes Modell will. Der Beispiel-Lauf in `examples/stur-run/` ist so entstanden.
+
+1. `FAL_KEY` in `.env` (fal.ai/dashboard/keys). Guthaben prüfen: `curl -H "Authorization: Key $FAL_KEY" https://rest.alpha.fal.ai/billing/user_balance`.
+2. Die fünf Prompts wie in Route A bauen, aber als `runs/<id>/prompts.json`: Liste von `{name, endpoint, input}` mit `endpoint: "bytedance/seedance-2.0/reference-to-video"` und `input: {prompt, image_urls: [<Produktbild-URL>], duration, resolution: "720p", aspect_ratio: "9:16", generate_audio: true}`. Das Produktbild wird im Prompt als `@Image1` referenziert.
+3. **Preis.** fal hat keine Kostenabfrage. Preis von der Modellseite nehmen (Stand 06.09.2026: 0,3024 $ pro Sekunde, 720p Standard) und als `cost.md` mit Summe zeigen. Auf `freigeben` warten.
+4. `FAL_KEY=… python3 scripts/render-fal.py runs/<id>/prompts.json runs/<id>/raw`. Das Skript reicht alle Jobs parallel ein, pollt, lädt die MP4s und schreibt `render.json` mit Ergebnis-URLs. Die fal-URLs sind öffentlich, `/label` kann sie direkt als `video_url` verwenden.
+5. Weiter wie Route A ab Schritt 8.
 
 ## Route B · eigener Quellclip (`--quelle`)
 

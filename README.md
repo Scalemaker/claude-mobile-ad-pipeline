@@ -11,7 +11,7 @@ Dieses Repo ist der komplette Bausatz: sechs Claude-Code-Skills, die Markenkonte
 | 1 | `/teardown` | Zerlegt die Wettbewerber-Ad in Hook, Mechanik, emotionalen Bogen und Belief Shift | Handy |
 | 2 | `/rebuild` | Baut auf denselben Knochen ein 6-Shot-Storyboard für dein Produkt, in deiner Stimme | Handy |
 | 3 | Freigabe | Du liest das Briefing, antwortest `freigeben`. Vorher siehst du den Preis, den Higgsfield für die Renders nimmt | Handy |
-| 4 | `/render` | Fünf Format-Varianten über den Higgsfield-MCP: UGC, Cinematic, Reaction, Mirror-Hook, Split-Screen | unterwegs |
+| 4 | `/render` | Fünf Format-Varianten: UGC, Cinematic, Reaction, Mirror-Hook, Split-Screen. Über den Higgsfield-MCP oder mit `--provider fal` über fal.ai (Seedance 2.0) | unterwegs |
 | 5 | `/label` | Jeder Clip bekommt das offizielle EU-Icon und die maschinenlesbare XMP/IPTC-Markierung über den KI-Kennzeichnung-MCP, platziert innerhalb der Reels-Safe-Zone | unterwegs |
 | 6 | Prüfen | Kontaktblatt pro Clip mit eingezeichneter Safe Zone, Markierung wird im File nachgewiesen. Dann Schnittprogramm und Meta-Entwurf | Laptop |
 
@@ -69,6 +69,10 @@ Drei Wege, alle drei funktionieren heute, keiner braucht einen Trick. Ausführli
 2. **Claude-App mit Projekt.** Den Prompt aus `prompts/orchestrator-system-prompt.md` als Projektanweisung, die Markendateien als Projektwissen, Higgsfield und KI-Kennzeichnung als Connectoren. Läuft komplett am Handy, ohne Mac.
 3. **Routine.** Ein Cloud-Lauf zu fester Uhrzeit, der eine Watchlist an Ads abarbeitet und dir die Briefings zur Freigabe hinlegt.
 
+## Ein echter Lauf zum Nachlesen
+
+[examples/stur-run](examples/stur-run/) ist die Pipeline einmal komplett an einer echten Marke: Markenkontext von sturcookware.de, eine aktive HexClad-Ad aus der Meta Ad Library als Quelle, Teardown, Rebuild, fünf Formate über fal.ai gerendert, alle fünf gekennzeichnet, Kontaktblätter dabei. Inklusive der zwei Grenzen, die erst der Lauf gezeigt hat.
+
 ## So sieht die Prüfung aus
 
 ![Kontaktblatt eines gekennzeichneten Testclips](docs/kontaktblatt-beispiel.jpg)
@@ -99,7 +103,8 @@ brand/_template/    die acht Markendateien als Vorlage
 prompts/            Orchestrator-Prompt (Handy), Teardown, Rebuild, Format-Rahmen
 scripts/            check-setup, contact-sheet, rotate-library
 docs/               mobile, grenzen, fehler-und-fixes
-examples/demo-run/  ein vollständiger Teardown plus Rebuild zum Nachlesen
+examples/demo-run/  Teardown plus Rebuild an einer konstruierten Ad
+examples/stur-run/  echter Lauf an STUR Cookware: fünf gerenderte, gekennzeichnete Clips
 ```
 
 ## Lizenz

@@ -1,0 +1,21 @@
+{
+ "jobs": {
+  "ugc-v2": {
+   "status": "done",
+   "request_id": "01a075ee-bc60-7581-ac9f-e3b7fea9e1db",
+   "result_url": "https://v3b.fal.media/files/b/0aa95120/WsUmYiIOzCOWCLnTzki3o_video.mp4",
+   "file": "raw-v2/ugc-v2.mp4",
+   "seconds": 157,
+   "response": {
+    "video": {
+     "url": "https://v3b.fal.media/files/b/0aa95120/WsUmYiIOzCOWCLnTzki3o_video.mp4",
+     "content_type": "video/mp4",
+     "file_name": "video.mp4",
+     "file_size": 7376631
+    },
+    "seed": 791513403
+   }
+  }
+ },
+ "updated": "2026-09-06 15:58:50"
+}

@@ -1,0 +1,16 @@
+[
+ {
+  "name": "ugc-v2",
+  "endpoint": "bytedance/seedance-2.0/reference-to-video",
+  "input": {
+   "prompt": "Handheld iPhone footage, vertical 9:16, natural window light, slight camera shake, real skin texture, no colour grading, ambient kitchen sound. a woman in her mid-thirties, plain dark sweater, no apron, natural look, in a real home kitchen with a wooden countertop and warm daylight from a side window talks to the front camera at arm's length, She speaks very little German, only short two- or three-word lines, slowly and clearly; otherwise natural kitchen sound. Beat 1 (0-3s): she briefly holds up an old non-stick pan with peeling coating and looks at it and shakes her head, no words Beat 2 (3-6s): she puts it away and lifts the black cast iron skillet from @Image1 (smooth dark interior, long cast handle, exactly this pan) off the stove, turns it so the smooth dark interior is visible, says only two German words, clearly: \"Nie wieder.\" Beat 3 (6-9s): top-down view into the skillet, a fried egg slides cleanly onto a plate, no words, only the sound of the pan Beat 4 (9-15s): a steak with a dark crust sizzles in the same skillet, light smoke, tongs flip it; then she faces the camera with the skillet relaxed at her side and says only, clearly and slowly: \"Fünfzig Jahre Garantie.\" Keep all on-screen action, the product hero moment and any text inside the upper two thirds of the frame; leave the lower right corner free. No captions, no subtitles, no on-screen text.",
+   "image_urls": [
+    "https://sturcookware.de/cdn/shop/files/Einzeln-28_250325.png?width=1600"
+   ],
+   "duration": 15,
+   "resolution": "720p",
+   "aspect_ratio": "9:16",
+   "generate_audio": true
+  }
+ }
+]

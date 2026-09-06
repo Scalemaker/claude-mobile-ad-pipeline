@@ -1,0 +1,85 @@
+{
+ "jobs": {
+  "ugc": {
+   "status": "done",
+   "request_id": "01a075e8-b67c-7310-80c5-3721a2c63a28",
+   "result_url": "https://v3b.fal.media/files/b/0aa950fd/tsIE71vW08wkZXESH4AHW_video.mp4",
+   "file": "examples/stur-run/raw/ugc.mp4",
+   "seconds": 197,
+   "response": {
+    "video": {
+     "url": "https://v3b.fal.media/files/b/0aa950fd/tsIE71vW08wkZXESH4AHW_video.mp4",
+     "content_type": "video/mp4",
+     "file_name": "video.mp4",
+     "file_size": 7085296
+    },
+    "seed": 26116955
+   }
+  },
+  "cinematic": {
+   "status": "done",
+   "request_id": "01a075e8-b67d-7690-be0a-4d824f975a30",
+   "result_url": "https://v3b.fal.media/files/b/0aa95115/-NdffTqWveuGQNIBRRigg_video.mp4",
+   "file": "examples/stur-run/raw/cinematic.mp4",
+   "seconds": 209,
+   "response": {
+    "video": {
+     "url": "https://v3b.fal.media/files/b/0aa95115/-NdffTqWveuGQNIBRRigg_video.mp4",
+     "content_type": "video/mp4",
+     "file_name": "video.mp4",
+     "file_size": 5015398
+    },
+    "seed": 1741263843
+   }
+  },
+  "reaction": {
+   "status": "done",
+   "request_id": "01a075e8-b67e-72f2-ace3-538b0b2ebb2b",
+   "result_url": "https://v3b.fal.media/files/b/0aa95104/H6TuzPR1jlqcWJkxUuIVL_video.mp4",
+   "file": "examples/stur-run/raw/reaction.mp4",
+   "seconds": 275,
+   "response": {
+    "video": {
+     "url": "https://v3b.fal.media/files/b/0aa95104/H6TuzPR1jlqcWJkxUuIVL_video.mp4",
+     "content_type": "video/mp4",
+     "file_name": "video.mp4",
+     "file_size": 3891593
+    },
+    "seed": 762004035
+   }
+  },
+  "mirror": {
+   "status": "done",
+   "request_id": "01a075e8-b67d-7323-a0a5-00ed4707fd13",
+   "result_url": "https://v3b.fal.media/files/b/0aa950f9/5_QUCvXCahL2N0K6z2ZHF_video.mp4",
+   "file": "examples/stur-run/raw/mirror.mp4",
+   "seconds": 162,
+   "response": {
+    "video": {
+     "url": "https://v3b.fal.media/files/b/0aa950f9/5_QUCvXCahL2N0K6z2ZHF_video.mp4",
+     "content_type": "video/mp4",
+     "file_name": "video.mp4",
+     "file_size": 4984736
+    },
+    "seed": 1666820180
+   }
+  },
+  "split": {
+   "status": "done",
+   "request_id": "01a075e8-b67c-7b90-8d44-ea7f8187a451",
+   "result_url": "https://v3b.fal.media/files/b/0aa950fd/9dsRRmOnaP09q8WxkPV9u_video.mp4",
+   "file": "examples/stur-run/raw/split.mp4",
+   "seconds": 208,
+   "response": {
+    "video": {
+     "url": "https://v3b.fal.media/files/b/0aa950fd/9dsRRmOnaP09q8WxkPV9u_video.mp4",
+     "content_type": "video/mp4",
+     "file_name": "video.mp4",
+     "file_size": 4481484
+    },
+    "seed": 600288183
+   }
+  }
+ },
+ "updated": "2026-09-06 15:54:13"
+}
