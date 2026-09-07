@@ -26,7 +26,7 @@ Seit dem 2. August 2026 gilt Art. 50 EU AI Act. Er kennt zwei Rollen mit zwei Pf
    ffmpeg -y -i raw/<format>.mp4 -vf scale=540:-1 -c:v libx264 -preset slow -crf 26 -c:a aac -b:a 96k -movflags +faststart raw/<format>-small.mp4
    ```
 
-   Danach eine öffentliche URL besorgen, denn `label_video` liest per URL: `FAL_KEY=… python3 scripts/fal-upload.py raw/<format>-small.mp4` gibt sie aus. Ergebnis-URLs aus dem Render sind bereits öffentlich und können direkt verwendet werden, solange sie klein genug sind.
+   Danach eine öffentliche URL besorgen, denn `label_video` liest per URL: `python3 scripts/fal-upload.py raw/<format>-small.mp4` gibt sie aus. Ergebnis-URLs aus dem Render sind bereits öffentlich und können direkt verwendet werden, solange sie klein genug sind.
 4. **Kennzeichnen.** Je Clip `label_video` mit `video_url`, `icon`, `x`, `y`, `size`, `embed_metadata: true`. Mit `--register` zusätzlich `register_entry: true`, dann erscheint der Clip im Kennzeichnungs-Register des Accounts als Nachweis.
 5. **Speichern.** Die zurückgegebene Datei nach `runs/<id>/final/<format>-labeled.mp4`.
 6. **Prüfen.** Für jede Datei `scripts/contact-sheet.sh runs/<id>/final/<format>-labeled.mp4`. Das Skript zieht drei Frames, zeichnet die Reels-Safe-Zone als L ein und meldet, ob `DigitalSourceType` im File steht. Kontaktblatt ansehen: Icon innerhalb der grünen Zone? Hook-Overlay nicht unter der roten Leiste?

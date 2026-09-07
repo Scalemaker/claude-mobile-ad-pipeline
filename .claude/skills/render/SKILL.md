@@ -25,10 +25,10 @@ description: Rendert das freigegebene Storyboard in fünf Format-Varianten (UGC,
 
 Gleiche Prompts, anderes Modell. Sinnvoll, wenn kein Higgsfield-Guthaben da ist oder der Operator ein bestimmtes Modell will. **Das ist die Route, die in diesem Repo end-to-end gelaufen ist**, siehe `examples/stur-run/`. Route A ist gebaut, aber mangels Guthaben nie komplett durchgelaufen: prüf dort die Antworten des MCP, statt sie vorauszusetzen.
 
-1. `FAL_KEY` in `.env` (fal.ai/dashboard/keys). Guthaben prüfen: `curl -H "Authorization: Key $FAL_KEY" https://rest.alpha.fal.ai/billing/user_balance`.
+1. `FAL_KEY` in `.env` (fal.ai/dashboard/keys). Guthaben prüfen: `scripts/check-setup.sh`.
 2. Die fünf Prompts wie in Route A bauen, aber als `runs/<id>/prompts.json`: Liste von `{name, endpoint, input}` mit `endpoint: "bytedance/seedance-2.0/reference-to-video"` und `input: {prompt, image_urls: [<Produktbild-URL>], duration, resolution: "720p", aspect_ratio: "9:16", generate_audio: true}`. Das Produktbild wird im Prompt als `@Image1` referenziert.
 3. **Preis.** fal hat keine Kostenabfrage. Preis von der Modellseite nehmen (Stand 06.09.2026: 0,3024 $ pro Sekunde, 720p Standard) und als `cost.md` mit Summe zeigen. Auf `freigeben` warten.
-4. `FAL_KEY=… python3 scripts/render-fal.py runs/<id>/prompts.json runs/<id>/raw`. Das Skript reicht alle Jobs parallel ein, pollt, lädt die MP4s und schreibt `render.json` mit Ergebnis-URLs. Die fal-URLs sind öffentlich, `/label` kann sie direkt als `video_url` verwenden.
+4. `python3 scripts/render-fal.py runs/<id>/prompts.json runs/<id>/raw` (Key aus der `.env`). Das Skript reicht alle Jobs parallel ein, pollt, lädt die MP4s und schreibt `render.json` mit Ergebnis-URLs. Die fal-URLs sind öffentlich, `/label` kann sie direkt als `video_url` verwenden.
 5. Weiter wie Route A ab Schritt 8.
 
 ## Route C · eigener Quellclip (`--quelle`)

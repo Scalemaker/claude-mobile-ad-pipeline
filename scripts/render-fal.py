@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 """Render-Route fal.ai (statt Higgsfield-MCP). Stdlib only.
 
-    FAL_KEY=… python3 scripts/render-fal.py runs/<id>/prompts.json runs/<id>/final
+    python3 scripts/render-fal.py runs/<id>/prompts.json runs/<id>/final
+
+Der Key kommt aus der .env im Repo oder aus der Umgebungsvariable FAL_KEY.
 
 prompts.json: Liste von {name, endpoint, input}. Alle Jobs werden parallel
 eingereicht, gepollt, die Ergebnisse als <name>.mp4 gespeichert und in
@@ -9,9 +11,23 @@ render.json protokolliert (request_id, result_url, Dauer, Fehler).
 """
 import sys, os, json, time, threading, urllib.request, pathlib
 
-KEY = os.environ.get("FAL_KEY")
+def _fal_key():
+    """FAL_KEY aus der Umgebung oder aus der .env im Repo-Wurzelverzeichnis."""
+    key = os.environ.get("FAL_KEY")
+    if key:
+        return key.strip()
+    env = pathlib.Path(__file__).resolve().parent.parent / ".env"
+    if env.exists():
+        for line in env.read_text(encoding="utf-8").splitlines():
+            line = line.strip()
+            if line.startswith("FAL_KEY=") and not line.startswith("#"):
+                return line.split("=", 1)[1].strip().strip('"').strip("'")
+    return None
+
+KEY = _fal_key()
 if not KEY:
-    sys.exit("FAL_KEY fehlt (Umgebungsvariable).")
+    sys.exit("FAL_KEY fehlt. Trag ihn in die .env im Repo ein (Vorlage: .env.example) "
+             "oder setz ihn als Umgebungsvariable. Key holen: fal.ai/dashboard/keys")
 src = pathlib.Path(sys.argv[1]); out = pathlib.Path(sys.argv[2]); out.mkdir(parents=True, exist_ok=True)
 jobs = json.load(open(src))
 state = {j["name"]: {"status": "queued"} for j in jobs}
