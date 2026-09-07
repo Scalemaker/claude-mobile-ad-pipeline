@@ -7,6 +7,8 @@ python3 scripts/ui.py            # http://127.0.0.1:7788
 python3 scripts/ui.py --port 8000
 ```
 
+![Das Cockpit mit dem mitgelieferten STUR-Lauf](../../docs/post/cockpit.png)
+
 ## Was sie tut
 
 | Bereich | Inhalt |

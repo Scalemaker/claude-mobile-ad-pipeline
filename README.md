@@ -85,6 +85,8 @@ Zwei Wege, gleicher Ablauf.
 python3 scripts/ui.py        # http://127.0.0.1:7788
 ```
 
+![Das Cockpit mit dem STUR-Lauf](docs/post/cockpit.png)
+
 Sie zeigt den Lauf nebeneinander: Quelle, Teardown, Briefing links, Preis mit Freigabe-Knopf, Render-Fortschritt und die fertigen Clips rechts. Sie denkt nicht, das macht weiter Claude Code, und sie startet nichts ohne deinen Klick. Ohne Abhängigkeiten, nur Python 3, und sie hört ausschließlich auf 127.0.0.1. Der mitgelieferte STUR-Lauf ist sofort sichtbar.
 
 ## So sieht die Prüfung aus
