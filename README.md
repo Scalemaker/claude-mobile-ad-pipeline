@@ -71,6 +71,12 @@ runs/2026-09-06-demo/
 
 [examples/stur-run](examples/stur-run/) ist die Pipeline einmal komplett an einer echten Marke: Markenkontext von sturcookware.de, eine aktive HexClad-Ad aus der Meta Ad Library als Quelle, Teardown, Rebuild, fünf Formate gerendert, alle fünf gekennzeichnet, Kontaktblätter dabei. Inklusive der zwei Grenzen, die erst der Lauf gezeigt hat.
 
+## So wird sie benutzt
+
+Es gibt keine Oberfläche. Du tippst einen Befehl in Claude Code und liest mit, zwei Freigaben, fertig.
+
+![Der Ablauf im Chat, echter Lauf an STUR](docs/post/ablauf.png)
+
 ## So sieht die Prüfung aus
 
 ![Kontaktblatt eines gekennzeichneten Testclips](docs/kontaktblatt-beispiel.jpg)

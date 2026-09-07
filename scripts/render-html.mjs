@@ -1,10 +1,12 @@
 #!/usr/bin/env node
 // HTML → PNG über CDP. Port 0 + DevToolsActivePort, damit nie ein fremder Chrome gesteuert wird.
-//   node scripts/render-html.mjs <datei.html> <ziel.png> <breite> <hoehe> [scale]
+//   node scripts/render-html.mjs <datei.html> <ziel.png> <breite> <hoehe|auto> [scale]
+// hoehe=auto misst die tatsächliche Dokumenthöhe, nichts wird abgeschnitten.
 import { spawn } from 'node:child_process';
 import fs from 'node:fs'; import path from 'node:path'; import os from 'node:os';
 const [html, out, W, H, S] = process.argv.slice(2);
-const w = +W || 1080, h = +H || 1350, scale = +S || 2;
+const w = +W || 1080, auto = String(H) === 'auto', scale = +S || 2;
+let h = auto ? 1200 : (+H || 1350);
 const chrome = process.env.CHROME || '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
 const profile = path.join(os.tmpdir(), 'lm-cdp-profile-' + process.pid);
 fs.mkdirSync(profile, { recursive: true });
@@ -24,6 +26,12 @@ await send('Page.navigate', { url: 'file://' + path.resolve(html) });
 for (let i = 0; i < 80; i++) { if (events.some(e => e.method === 'Page.loadEventFired')) break; await sleep(100); }
 await send('Runtime.evaluate', { expression: 'document.fonts.ready.then(()=>true)', awaitPromise: true });
 await sleep(300);
+if (auto) {
+  const m = await send('Runtime.evaluate', { expression: 'Math.ceil(document.documentElement.scrollHeight)', returnByValue: true });
+  h = m.result.result.value;
+  await send('Emulation.setDeviceMetricsOverride', { width: w, height: h, deviceScaleFactor: scale, mobile: false });
+  await sleep(200);
+}
 const shot = await send('Page.captureScreenshot', { format: 'png', captureBeyondViewport: false });
 fs.writeFileSync(out, Buffer.from(shot.result.data, 'base64'));
 ws.close(); child.kill();

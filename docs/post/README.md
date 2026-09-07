@@ -1,11 +1,12 @@
-# Post-Grafik
+# Grafiken fürs Ausspielen
 
-`mockup.html` ist die LinkedIn-Post-Grafik als HTML, `mockup.png` die gerenderte Fassung (1080×1350, 2x). Die Kacheln sind echte Frames aus `examples/stur-run/final/`, mit dem eingebrannten EU-Icon. Die Wettbewerber-Ad ist bewusst ein Platzhalter, kein Frame aus dem HexClad-Video.
+Beide sind HTML, gerendert per CDP. Die Kacheln sind echte Frames aus `examples/stur-run/final/`, mit dem eingebrannten EU-Icon.
 
-Neu rendern nach Änderungen:
+| Datei | Wofür | Rendern |
+|---|---|---|
+| `mockup.html` → `mockup.png` | LinkedIn-Post, 1080×1350 | `node scripts/render-html.mjs docs/post/mockup.html docs/post/mockup.png 1080 1350 2` |
+| `ablauf.html` → `ablauf.png` | „So wird sie benutzt", für Notion und Website | `node scripts/render-html.mjs docs/post/ablauf.html docs/post/ablauf.png 1080 auto 2` |
 
-```bash
-node scripts/render-html.mjs docs/post/mockup.html docs/post/mockup.png 1080 1350 2
-```
+`auto` als Höhe misst die Dokumenthöhe, damit unten nichts abgeschnitten wird.
 
-Das Kommentar-Keyword im CTA ist ein Platzhalter, bis der Post steht.
+Der Ablauf zeigt den echten STUR-Lauf, gekürzt auf das, was am Schirm steht. Das Kommentar-Keyword im Post-CTA ist ein Platzhalter, bis der Post steht.

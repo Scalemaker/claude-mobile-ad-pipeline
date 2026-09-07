@@ -1,0 +1,122 @@
+<!doctype html><html lang="de"><head><meta charset="utf-8"><title>So wird die Pipeline benutzt</title>
+<style>
+:root{--bg:#0e1013;--panel:#171a20;--line:#262b34;--txt:#f2f3f5;--mut:#8b93a1;--acc:#e8b04b;--ok:#3ddc84;--you:#2b3140}
+*{box-sizing:border-box;margin:0;padding:0}
+body{width:1080px;background:var(--bg);color:var(--txt);font-family:-apple-system,"Helvetica Neue",Helvetica,Arial,sans-serif}
+.page{padding:44px 48px 52px}
+h1{font-size:40px;font-weight:800;letter-spacing:-.6px;margin-bottom:8px}
+h1 span{color:var(--acc)}
+.sub{color:var(--mut);font-size:18px;margin-bottom:30px;line-height:1.45}
+.chat{background:var(--panel);border:1px solid var(--line);border-radius:20px;overflow:hidden}
+.bar{height:44px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:9px;padding:0 18px;font-size:14px;color:var(--mut)}
+.bar b{color:var(--txt);font-weight:600}
+.d{width:9px;height:9px;border-radius:50%}
+.d1{background:#ff5f57}.d2{background:#febc2e}.d3{background:#28c840}
+.bar .r{margin-left:auto;font-size:13px}
+.body{padding:22px 22px 26px;display:flex;flex-direction:column;gap:16px}
+.you{align-self:flex-end;max-width:78%;background:var(--you);border:1px solid #39414f;border-radius:14px 14px 4px 14px;padding:12px 15px;font-size:16px;font-family:ui-monospace,Menlo,monospace}
+.cl{max-width:92%;background:#101318;border:1px solid var(--line);border-radius:14px 14px 14px 4px;padding:15px 17px}
+.who{font-size:12px;letter-spacing:.13em;text-transform:uppercase;color:var(--mut);margin-bottom:9px;display:flex;align-items:center;gap:7px}
+.who i{width:8px;height:8px;border-radius:50%;background:var(--acc);font-style:normal}
+.cl p{font-size:15.5px;line-height:1.5;margin-bottom:9px}
+.cl p:last-child{margin-bottom:0}
+.cl b{color:#fff}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:5px 16px;font-size:15px;margin:9px 0}
+.kv .k{color:var(--mut)}
+.kv .v{color:var(--txt);font-weight:600}
+.shots{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:11px 0 4px}
+.shot{background:#0b0d10;border:1px solid var(--line);border-radius:9px;padding:9px 10px;font-size:13.5px;line-height:1.35;color:#cfd4dc}
+.shot b{display:block;color:var(--acc);font-size:11px;letter-spacing:.09em;margin-bottom:3px;font-weight:700}
+.ask{margin-top:11px;padding-top:11px;border-top:1px dashed var(--line);font-size:15.5px;color:var(--acc);font-weight:600}
+.price{width:100%;border-collapse:collapse;margin:9px 0 4px;font-size:15px}
+.price td{padding:6px 0;border-bottom:1px solid var(--line);color:#cfd4dc}
+.price td:last-child{text-align:right;font-weight:600;color:#fff}
+.price tr:last-child td{border-bottom:none;padding-top:9px;font-size:17px;color:#fff}
+.prog{display:flex;flex-direction:column;gap:7px;margin:9px 0 2px;font-family:ui-monospace,Menlo,monospace;font-size:14px}
+.prog div{display:flex;gap:11px;align-items:center;color:#cfd4dc}
+.prog .t{color:var(--ok);font-weight:700;width:15px}
+.prog .s{color:var(--mut);margin-left:auto;font-size:13px}
+.files{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;margin:11px 0 3px}
+.f{border-radius:9px;overflow:hidden;border:1px solid var(--line);position:relative;aspect-ratio:9/16}
+.f img{width:100%;height:100%;object-fit:cover;display:block}
+.f span{position:absolute;left:0;right:0;bottom:0;background:rgba(0,0,0,.72);font-size:11px;padding:4px 5px;text-align:center;font-weight:600}
+.badge{display:inline-flex;align-items:center;gap:6px;background:rgba(61,220,132,.13);border:1px solid rgba(61,220,132,.38);color:var(--ok);border-radius:8px;padding:6px 10px;font-size:14px;font-weight:600;margin-top:9px}
+.note{font-size:14px;color:var(--mut);margin-top:9px;line-height:1.45}
+.foot{margin-top:26px;display:flex;gap:12px;align-items:flex-start;font-size:15px;color:var(--mut);line-height:1.5}
+.foot .box{flex:1;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:15px 17px}
+.foot b{color:var(--txt);display:block;margin-bottom:5px;font-size:15.5px}
+.phone{color:var(--acc);font-weight:600}
+</style></head><body><div class="page">
+<h1>So wird sie benutzt: <span>ein Chat</span>, zwei Freigaben</h1>
+<div class="sub">Keine Oberfläche, kein Login, kein Tool zum Lernen. Du tippst einen Befehl und liest mit. Der Ablauf unten ist der echte Lauf an der STUR Gusseisenpfanne, gekürzt auf das, was am Schirm steht.</div>
+<div class="chat">
+ <div class="bar"><span class="d d1"></span><span class="d d2"></span><span class="d d3"></span> <b>Claude Code</b> · claude-mobile-ad-pipeline <span class="r">auch in der Claude-App am Handy</span></div>
+ <div class="body">
+
+  <div class="you">/pipeline https://facebook.com/ads/library/?id=1524290438980773 --marke stur</div>
+
+  <div class="cl"><div class="who"><i></i>Claude · Teardown</div>
+   <p>Quelle gelesen, 59 s, transkribiert. Vier Teile:</p>
+   <div class="kv">
+    <span class="k">Hook</span><span class="v">„…warum über 900.000 Hobbyköche diese Pfanne benutzen."</span>
+    <span class="k">Mechanik</span><span class="v">number + curiosity, dann Dreier-Stack an Problemen</span>
+    <span class="k">Bogen</span><span class="v">Peak bei Sek. 31, Loch bei Sek. 21</span>
+    <span class="k">Belief Shift</span><span class="v">„Antihaft und Röstaromen schließen sich aus" → „eine Pfanne kann beides"</span>
+   </div>
+  </div>
+
+  <div class="cl"><div class="who"><i></i>Claude · Rebuild</div>
+   <p><b>Neuer Hook:</b> „Warum ich mir für die nächsten 50 Jahre keine Pfanne mehr kaufe."</p>
+   <div class="shots">
+    <div class="shot"><b>Shot 1 · 0-3 s</b>Alte Pfanne mit abgeplatzter Beschichtung, Hook gesprochen</div>
+    <div class="shot"><b>Shot 3 · 6-9 s</b>Ei rutscht sauber raus. „Abgedreht und eingebrannt."</div>
+    <div class="shot"><b>Shot 4 · 9-12 s</b>Steak mit Kruste, Zange wendet, Zischen</div>
+   </div>
+   <p class="note">Jede Aussage gegen product_core.md geprüft. Alle belegt, kein TODO offen. Der Preis kommt bewusst nicht ins Video.</p>
+   <div class="ask">Briefing bereit. Antworte mit „freigeben", dann hole ich den Preis.</div>
+  </div>
+
+  <div class="you">freigeben</div>
+
+  <div class="cl"><div class="who"><i></i>Claude · Preis</div>
+   <table class="price">
+    <tr><td>UGC · 15 s</td><td>4,54 $</td></tr>
+    <tr><td>Cinematic · 12 s</td><td>3,63 $</td></tr>
+    <tr><td>Reaction, Mirror-Hook, Split-Screen</td><td>12,70 $</td></tr>
+    <tr><td>5 Formate · 69 s · Seedance 2.0 · 720p</td><td>20,87 $</td></tr>
+   </table>
+   <div class="ask">Guthaben 50,00 $. Noch einmal „freigeben", dann starte ich.</div>
+  </div>
+
+  <div class="you">freigeben</div>
+
+  <div class="cl"><div class="who"><i></i>Claude · Render</div>
+   <div class="prog">
+    <div><span class="t">✓</span>mirror<span class="s">162 s</span></div>
+    <div><span class="t">✓</span>ugc<span class="s">197 s</span></div>
+    <div><span class="t">✓</span>split<span class="s">208 s</span></div>
+    <div><span class="t">✓</span>cinematic<span class="s">209 s</span></div>
+    <div><span class="t">✓</span>reaction<span class="s">275 s</span></div>
+   </div>
+   <p class="note">5 von 5 fertig. Du warst in der Zeit spazieren, die Push-Nachricht kam aufs Handy.</p>
+  </div>
+
+  <div class="cl"><div class="who"><i></i>Claude · Kennzeichnen und Prüfen</div>
+   <div class="files">
+    <div class="f"><img src="frames/ugc.jpg"><span>UGC</span></div>
+    <div class="f"><img src="frames/cinematic.jpg"><span>Cinematic</span></div>
+    <div class="f"><img src="frames/reaction.jpg"><span>Reaction</span></div>
+    <div class="f"><img src="frames/mirror.jpg"><span>Mirror</span></div>
+    <div class="f"><img src="frames/split.jpg"><span>Split</span></div>
+   </div>
+   <div class="badge">✓ EU-Icon gesetzt · XMP-Markierung im File nachgewiesen · Safe Zone geprüft</div>
+   <p class="note">Liegt in <b>runs/2026-09-06-stur/final/</b>. Cinematic liegt deinem Angebot am nächsten: Beweis am Objekt, kein Dialog, der schiefgehen kann.</p>
+  </div>
+
+ </div>
+</div>
+<div class="foot">
+ <div class="box"><b>Am Handy</b>Genau derselbe Chat in der Claude-App. Du wirfst die Ad morgens rein, gehst los, bekommst die Push „Briefing bereit", tippst <span class="phone">freigeben</span>.</div>
+ <div class="box"><b>Am Laptop</b>Nur der letzte Schritt: Musik, Untertitel, Export, Meta als Entwurf. Live schaltest du selbst, das macht die Pipeline nie.</div>
+</div>
+</div></body></html>
