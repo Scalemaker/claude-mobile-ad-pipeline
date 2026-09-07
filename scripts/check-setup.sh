@@ -18,12 +18,16 @@ command -v python3 >/dev/null && pass "python3"                || fail "python3"
 echo "Render-Route (mindestens eine reicht)"
 routes=0
 if [ -f "$ROOT/.env" ] && grep -qE '^FAL_KEY=.+' "$ROOT/.env"; then
-  key=$(grep -E '^FAL_KEY=' "$ROOT/.env" | head -1 | cut -d= -f2- | tr -d '"'"'"'')
+  # letzte nicht-leere Zuweisung gewinnt, damit die leere Zeile aus .env.example nicht stört
+  key=$(grep -E '^FAL_KEY=.+' "$ROOT/.env" | tail -1 | cut -d= -f2- | tr -d '"'"'"'' | tr -d '[:space:]')
   bal=$(curl -s -m 10 -H "Authorization: Key $key" https://rest.alpha.fal.ai/billing/user_balance 2>/dev/null)
-  case "$bal" in
-    ''|*error*|*nauthor*) fail "FAL_KEY in .env, aber fal antwortet nicht wie erwartet: ${bal:-keine Antwort}" ;;
-    *) pass "fal.ai erreichbar, Guthaben $bal \$"; routes=$((routes+1)) ;;
-  esac
+  if printf '%s' "$bal" | grep -qE '^-?[0-9]+([.][0-9]+)?$'; then
+    pass "fal.ai erreichbar, Guthaben $(printf '%.2f' "$bal") \$"; routes=$((routes+1))
+    awk -v b="$bal" 'BEGIN{ if (b+0 < 5) exit 0; exit 1 }' && note "unter 5 \$, das reicht für etwa einen Lauf mit fünf Clips"
+  else
+    fail "FAL_KEY in .env, aber fal antwortet nicht wie erwartet: ${bal:-keine Antwort}"
+    note "Key prüfen auf fal.ai/dashboard/keys, die Zeile in .env muss FAL_KEY=<key> lauten"
+  fi
 else
   soft "fal.ai: kein FAL_KEY in .env (Route \`/render --provider fal\`, in diesem Repo verifiziert)"
   note "Key holen: fal.ai/dashboard/keys, dann 'cp .env.example .env' und eintragen"

@@ -18,10 +18,15 @@ def _fal_key():
         return key.strip()
     env = pathlib.Path(__file__).resolve().parent.parent / ".env"
     if env.exists():
+        found = None
         for line in env.read_text(encoding="utf-8").splitlines():
             line = line.strip()
-            if line.startswith("FAL_KEY=") and not line.startswith("#"):
-                return line.split("=", 1)[1].strip().strip('"').strip("'")
+            if line.startswith("#") or not line.startswith("FAL_KEY="):
+                continue
+            value = line.split("=", 1)[1].strip().strip('"').strip("'")
+            if value:            # leere Vorlagenzeile überspringen, letzte Zuweisung gewinnt
+                found = value
+        return found
     return None
 
 KEY = _fal_key()
