@@ -1,0 +1,84 @@
+<!doctype html><html lang="de"><head><meta charset="utf-8"><title>Mobile Ad Pipeline · Post-Mockup</title>
+<style>
+:root{--bg:#0e1013;--card:#171a20;--line:#262b34;--txt:#f2f3f5;--mut:#8b93a1;--acc:#e8b04b;--ok:#3ddc84}
+*{box-sizing:border-box;margin:0;padding:0}
+body{width:1080px;height:1350px;background:var(--bg);color:var(--txt);font-family:-apple-system,"Helvetica Neue",Helvetica,Arial,sans-serif;overflow:hidden;position:relative}
+.wrap{position:absolute;inset:0;padding:44px 48px}
+.top{font-size:38px;font-weight:700;letter-spacing:-.5px;margin-bottom:26px}
+.top span{color:var(--acc)}
+.app{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:22px;height:1000px;display:grid;grid-template-columns:292px 1fr;gap:22px;position:relative;overflow:hidden}
+.appbar{position:absolute;top:0;left:0;right:0;height:46px;border-bottom:1px solid var(--line);display:flex;align-items:center;padding:0 20px;gap:10px;font-size:15px;color:var(--mut)}
+.appbar b{color:var(--txt);font-weight:600}
+.dot{width:10px;height:10px;border-radius:50%;background:var(--acc);box-shadow:0 0 0 4px rgba(232,176,75,.18)}
+.appbar .right{margin-left:auto;display:flex;gap:8px;align-items:center}
+.pill{border:1px solid var(--line);border-radius:999px;padding:5px 11px;font-size:13px;color:var(--mut)}
+.pill.ok{color:var(--ok);border-color:rgba(61,220,132,.35)}
+.col{padding-top:46px;display:flex;flex-direction:column;gap:14px}
+.lab{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--mut)}
+.input{background:#0b0d10;border:1px solid var(--line);border-radius:16px;overflow:hidden;position:relative;height:520px}
+.input .thumb{position:absolute;inset:0;background:
+ radial-gradient(120% 80% at 30% 20%,#3a3f47 0%,#1a1d22 55%,#0b0d10 100%)}
+.input .grain{position:absolute;inset:0;background:repeating-linear-gradient(0deg,rgba(255,255,255,.025) 0 2px,transparent 2px 4px)}
+.input .play{position:absolute;left:50%;top:38%;width:64px;height:64px;margin-left:-32px;border-radius:50%;border:2px solid rgba(255,255,255,.55);display:flex;align-items:center;justify-content:center}
+.input .play::after{content:"";border-left:20px solid rgba(255,255,255,.85);border-top:12px solid transparent;border-bottom:12px solid transparent;margin-left:5px}
+.input .cap{position:absolute;left:14px;right:14px;top:14px;font-size:13px;color:var(--mut);display:flex;justify-content:space-between}
+.input .txt{position:absolute;left:16px;right:16px;bottom:118px;font-size:15px;line-height:1.35;color:#d7dae0}
+.tags{position:absolute;left:12px;right:12px;bottom:12px;display:flex;flex-direction:column;gap:6px}
+.tag{background:rgba(232,176,75,.14);border:1px solid rgba(232,176,75,.45);color:var(--acc);font-size:13px;border-radius:8px;padding:6px 9px;display:flex;align-items:center;gap:8px}
+.tag::before{content:"✓";font-weight:700}
+.stop{background:#0b0d10;border:1px solid var(--line);border-radius:16px;padding:16px 14px;display:flex;flex-direction:column;gap:11px;flex:1}
+.stop .row{display:flex;justify-content:space-between;font-size:14px;color:var(--mut)}
+.stop .row b{color:var(--txt);font-weight:600}
+.btn{margin-top:auto;background:var(--acc);color:#141414;font-weight:700;font-size:16px;border-radius:12px;padding:13px;text-align:center;letter-spacing:.02em}
+.hint{font-size:12px;color:var(--mut);text-align:center}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(2,1fr);gap:14px;flex:1}
+.tile{position:relative;border-radius:14px;overflow:hidden;background:#000;border:1px solid var(--line)}
+.tile img{width:100%;height:100%;object-fit:cover;display:block}
+.tile .name{position:absolute;left:10px;bottom:10px;background:rgba(0,0,0,.62);backdrop-filter:blur(4px);border-radius:8px;padding:5px 9px;font-size:13px;font-weight:600}
+.tile .st{position:absolute;right:10px;bottom:10px;background:rgba(61,220,132,.16);border:1px solid rgba(61,220,132,.4);color:var(--ok);border-radius:8px;padding:5px 8px;font-size:12px}
+.tile.next{display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px;border-style:dashed;color:var(--mut);font-size:14px;text-align:center;padding:14px}
+.tile.next b{color:var(--txt);font-size:15px}
+.spin{width:34px;height:34px;border-radius:50%;border:3px solid var(--line);border-top-color:var(--acc)}
+.head{display:flex;justify-content:space-between;align-items:baseline}
+.head .lab{margin:0}
+.head small{color:var(--mut);font-size:13px}
+.cta{position:absolute;left:0;right:0;bottom:48px;text-align:center;font-size:72px;font-weight:900;letter-spacing:-1px;line-height:1;text-shadow:0 4px 30px rgba(0,0,0,.6)}
+.cta em{font-style:normal;color:var(--acc)}
+.sub{position:absolute;left:0;right:0;bottom:32px;text-align:center;color:var(--mut);font-size:15px}
+</style></head><body><div class="wrap">
+<div class="top">Wettbewerber-Ad rein. <span>5 fertige Clips</span> raus. Vom Handy.</div>
+<div class="app">
+ <div class="appbar"><span class="dot"></span><b>Ad Pipeline</b> · STUR Gusseisenpfanne 28 cm <div class="right"><span class="pill">Claude Code</span><span class="pill ok">5/5 gekennzeichnet</span></div></div>
+ <div class="col">
+  <div class="lab">Eingabe · Wettbewerber-Ad</div>
+  <div class="input"><div class="thumb"></div><div class="grain"></div><div class="play"></div>
+   <div class="cap"><span>Meta Ad Library</span><span>0:59</span></div>
+   <div class="txt">„Kennt ihr das? Das Steak klebt an der Pfanne fest, die Hitze verteilt sich unregelmäßig…"</div>
+   <div class="tags"><div class="tag">Hook erkannt · number + curiosity</div><div class="tag">Mechanik extrahiert · Social Proof</div><div class="tag">Belief Shift gemappt · Sek. 31</div></div>
+  </div>
+  <div class="stop">
+   <div class="lab">Halt vor dem Geld</div>
+   <div class="row"><span>Rebuild-Hook</span><b>„50 Jahre…“</b></div>
+   <div class="row"><span>Jede Aussage belegt</span><b>mit Quelle</b></div>
+   <div class="row"><span>Modell</span><b>Seedance 2.0</b></div>
+   <div class="row"><span>5 Formate · 69 s</span><b>20,87 $</b></div>
+   <div class="row"><span>Kennzeichnung Art. 50</span><b>EU-Icon + XMP</b></div>
+   <div class="row"><span>Safe Zone Reels</span><b>geprüft</b></div>
+   <div class="btn">freigeben</div>
+   <div class="hint">nichts rendert ohne dieses Wort</div>
+  </div>
+ </div>
+ <div class="col">
+  <div class="head"><div class="lab">Generierte Formate</div><small>alle Erstversuche · EU-Icon in der Safe Zone</small></div>
+  <div class="grid">
+   <div class="tile"><img src="frames/ugc.jpg"><div class="name">UGC</div><div class="st">✓ gelabelt</div></div>
+   <div class="tile"><img src="frames/cinematic.jpg"><div class="name">Cinematic</div><div class="st">✓ gelabelt</div></div>
+   <div class="tile"><img src="frames/reaction.jpg"><div class="name">Reaction</div><div class="st">✓ gelabelt</div></div>
+   <div class="tile"><img src="frames/mirror.jpg"><div class="name">Mirror-Hook</div><div class="st">✓ gelabelt</div></div>
+   <div class="tile"><img src="frames/split.jpg"><div class="name">Split-Screen</div><div class="st">✓ gelabelt</div></div>
+   <div class="tile next"><div class="spin"></div><b>Nächste Ad</b>morgen 8:02, vom Handy</div>
+  </div>
+ </div>
+</div>
+<div class="cta">KOMMENTIERE <em>„PIPELINE“</em></div>
+</div></body></html>
