@@ -31,7 +31,8 @@ Vor `/render` immer den Preis zeigen (`get_cost: true` je Format) und auf das Wo
 ## Werkzeuge
 
 - **Higgsfield-MCP** (`.mcp.json`, Server `higgsfield`): `models_explore`, `media_import_url`, `media_upload`, `generate_video`, `generate_video_batch`, `jobs_wait`, `show_generation_by_ids`, `get_workflow_instructions`. Für Varianten aus einem eigenen Quellclip den Workflow `ad-multiplier` laden, bevor du irgendetwas anderes tust.
-- **KI-Kennzeichnung-MCP** (Server `ki-kennzeichnung`): `list_icons`, `label_video`, `label_image`, `verify_image`, `list_register`.
+- **KI-Kennzeichnung-MCP** (Server `ki-kennzeichnung`): `list_icons`, `label_video`, `label_image`, `verify_image`, `list_register`. Clips vorher unter rund 3,5 MB bringen, sonst kommt die gekennzeichnete Datei nicht zurück.
+- **fal.ai als Render-Alternative** (`--provider fal`): `scripts/render-fal.py` reicht die Jobs ein und lädt die Ergebnisse, `scripts/fal-upload.py` macht eine lokale Datei öffentlich. Braucht `FAL_KEY` in `.env`.
 - **Skripte:** `scripts/contact-sheet.sh` für das Kontaktblatt mit Safe Zone, `scripts/rotate-library.py` für die wöchentliche Pflege der Ad-Bibliothek, `scripts/check-setup.sh` für die Einrichtung.
 - **Push ans Handy:** Wenn der Operator per Remote Control verbunden ist, schick nach Rebuild („Briefing bereit, freigeben?") und nach Label („5 Clips fertig in runs/…/final") je eine Push-Nachricht. Nicht für Zwischenschritte.
 

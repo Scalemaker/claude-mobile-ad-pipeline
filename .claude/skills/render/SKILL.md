@@ -9,7 +9,7 @@ description: Rendert das freigegebene Storyboard in fünf Format-Varianten (UGC,
 
 `runs/<id>/rebuild.md` liegt vor und der Operator hat es mit dem Wort `freigeben` bestätigt. Steht das Wort nicht im Chat, stoppen und darauf hinweisen.
 
-## Route A · Storyboard rendern (Standard)
+## Route A · Storyboard über Higgsfield rendern
 
 1. **Modell prüfen.** `models_explore action=get model_id=seedance_2_0`. Dauer, Auflösungen und Referenz-Rollen aus der Antwort übernehmen, nicht aus dem Gedächtnis. Wenn das Modell fehlt oder umbenannt ist, `models_explore action=recommend` mit „9:16 product ad with product and character reference images, audio" und das Ergebnis dem Operator nennen, bevor es weitergeht.
 2. **Referenzen.** Produktbild-URL aus `brand/<marke>/assets.md` mit `media_import_url` importieren, lokale Datei mit `media_upload`. Die zurückgegebene Media-ID merken. Charakter: Element-ID aus `assets.md`, sonst Beschreibung aus `aesthetic_core.md` in den Prompt.
@@ -21,9 +21,9 @@ description: Rendert das freigegebene Storyboard in fünf Format-Varianten (UGC,
 8. **Fehler.** Ein Job mit Status failed: genau einmal mit demselben Prompt neu einreichen. Scheitert er wieder, das Format als ausgefallen melden und mit den anderen weitermachen. Nie einen laufenden Job neu einreichen.
 9. Wenn Remote Control verbunden ist: Push „Render fertig, <n> von 5 Clips. Weiter mit /label."
 
-## Route C · fal.ai statt Higgsfield (`--provider fal`)
+## Route B · fal.ai statt Higgsfield (`--provider fal`)
 
-Gleiche Prompts, anderes Modell. Sinnvoll, wenn kein Higgsfield-Guthaben da ist oder der Operator ein bestimmtes Modell will. Der Beispiel-Lauf in `examples/stur-run/` ist so entstanden.
+Gleiche Prompts, anderes Modell. Sinnvoll, wenn kein Higgsfield-Guthaben da ist oder der Operator ein bestimmtes Modell will. **Das ist die Route, die in diesem Repo end-to-end gelaufen ist**, siehe `examples/stur-run/`. Route A ist gebaut, aber mangels Guthaben nie komplett durchgelaufen: prüf dort die Antworten des MCP, statt sie vorauszusetzen.
 
 1. `FAL_KEY` in `.env` (fal.ai/dashboard/keys). Guthaben prüfen: `curl -H "Authorization: Key $FAL_KEY" https://rest.alpha.fal.ai/billing/user_balance`.
 2. Die fünf Prompts wie in Route A bauen, aber als `runs/<id>/prompts.json`: Liste von `{name, endpoint, input}` mit `endpoint: "bytedance/seedance-2.0/reference-to-video"` und `input: {prompt, image_urls: [<Produktbild-URL>], duration, resolution: "720p", aspect_ratio: "9:16", generate_audio: true}`. Das Produktbild wird im Prompt als `@Image1` referenziert.
@@ -31,7 +31,7 @@ Gleiche Prompts, anderes Modell. Sinnvoll, wenn kein Higgsfield-Guthaben da ist 
 4. `FAL_KEY=… python3 scripts/render-fal.py runs/<id>/prompts.json runs/<id>/raw`. Das Skript reicht alle Jobs parallel ein, pollt, lädt die MP4s und schreibt `render.json` mit Ergebnis-URLs. Die fal-URLs sind öffentlich, `/label` kann sie direkt als `video_url` verwenden.
 5. Weiter wie Route A ab Schritt 8.
 
-## Route B · eigener Quellclip (`--quelle`)
+## Route C · eigener Quellclip (`--quelle`)
 
 Wenn der Operator einen eigenen Clip zwischen 4 und 30 Sekunden hat und daraus Varianten will (andere Person, anderes Produkt, anderer Hintergrund): **nicht** Route A. Stattdessen `get_workflow_instructions workflow="ad-multiplier"` laden und dem Workflow folgen. Er verlangt Analyse, Referenz-Mapping und Freigabe je Person, und rendert stumm mit anschließender Tonrückführung. Ergebnis ebenfalls nach `runs/<id>/render.json`, Icon später `ai-modified-*`, weil echtes Material bearbeitet wurde.
 

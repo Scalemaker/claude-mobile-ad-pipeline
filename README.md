@@ -1,8 +1,8 @@
-# Mobile Ad Pipeline: Claude Code + Higgsfield MCP + KI-Kennzeichnung
+# Mobile Ad Pipeline: Claude Code + KI-Kennzeichnung
 
-Eine Winner-Ad des Wettbewerbers rein, fünf fertige und gekennzeichnete 9:16-Clips für dein eigenes Produkt raus. Du steuerst die Pipeline vom Handy, das Rendern läuft über den Higgsfield-MCP, die Kennzeichnung nach Art. 50 EU AI Act über den KI-Kennzeichnung-MCP. Der Laptop kommt erst am Ende für den Feinschliff ins Spiel.
+Eine Winner-Ad des Wettbewerbers rein, fünf fertige und gekennzeichnete 9:16-Clips für dein eigenes Produkt raus. Du steuerst die Pipeline vom Handy, das Rendern läuft über ein Videomodell deiner Wahl, die Kennzeichnung nach Art. 50 EU AI Act über den KI-Kennzeichnung-MCP. Der Laptop kommt erst am Ende für den Feinschliff ins Spiel.
 
-Dieses Repo ist der komplette Bausatz: sechs Claude-Code-Skills, die Markenkontext-Vorlagen, der Orchestrator-Prompt für die Claude-App am Handy, die Prüfskripte und ein durchgerechneter Beispiel-Lauf.
+Dieses Repo ist der komplette Bausatz: sechs Claude-Code-Skills, die Markenkontext-Vorlagen, der Orchestrator-Prompt für die Claude-App am Handy, die Prüfskripte und ein durchgerechneter Lauf an einer echten Marke.
 
 ## Was die Pipeline macht
 
@@ -10,24 +10,27 @@ Dieses Repo ist der komplette Bausatz: sechs Claude-Code-Skills, die Markenkonte
 |---|---|---|---|
 | 1 | `/teardown` | Zerlegt die Wettbewerber-Ad in Hook, Mechanik, emotionalen Bogen und Belief Shift | Handy |
 | 2 | `/rebuild` | Baut auf denselben Knochen ein 6-Shot-Storyboard für dein Produkt, in deiner Stimme | Handy |
-| 3 | Freigabe | Du liest das Briefing, antwortest `freigeben`. Vorher siehst du den Preis, den Higgsfield für die Renders nimmt | Handy |
-| 4 | `/render` | Fünf Format-Varianten: UGC, Cinematic, Reaction, Mirror-Hook, Split-Screen. Über den Higgsfield-MCP oder mit `--provider fal` über fal.ai (Seedance 2.0) | unterwegs |
-| 5 | `/label` | Jeder Clip bekommt das offizielle EU-Icon und die maschinenlesbare XMP/IPTC-Markierung über den KI-Kennzeichnung-MCP, platziert innerhalb der Reels-Safe-Zone | unterwegs |
+| 3 | Freigabe | Du liest das Briefing, antwortest `freigeben`. Vorher siehst du den Preis für die Renders | Handy |
+| 4 | `/render` | Fünf Format-Varianten: UGC, Cinematic, Reaction, Mirror-Hook, Split-Screen | unterwegs |
+| 5 | `/label` | Jeder Clip bekommt das offizielle EU-Icon und die maschinenlesbare XMP/IPTC-Markierung, platziert innerhalb der Reels-Safe-Zone | unterwegs |
 | 6 | Prüfen | Kontaktblatt pro Clip mit eingezeichneter Safe Zone, Markierung wird im File nachgewiesen. Dann Schnittprogramm und Meta-Entwurf | Laptop |
 
-`/pipeline` fährt die Schritte 1 bis 5 in einem Zug und hält nur vor dem Geldausgeben an.
+`/pipeline` fährt die Schritte 1 bis 5 in einem Zug und hält nur an, bevor Geld ausgegeben wird.
 
 ## Schnellstart
 
-Du brauchst: [Claude Code](https://claude.com/claude-code), einen Higgsfield-Account, `ffmpeg` (`brew install ffmpeg`) und Python 3.
+Du brauchst: [Claude Code](https://claude.com/claude-code), `ffmpeg` (`brew install ffmpeg`), Python 3 und **eine** der beiden Render-Routen.
 
 ```bash
 git clone https://github.com/Scalemaker/claude-mobile-ad-pipeline.git
 cd claude-mobile-ad-pipeline
+cp .env.example .env
 claude
 ```
 
-Beim ersten Start fragt Claude Code, ob es die beiden MCP-Server aus `.mcp.json` laden darf. Ja sagen. Beide laufen über OAuth: beim ersten Aufruf eines Tools öffnet sich der Browser zum Login, danach ist der Server verbunden.
+Beim ersten Start fragt Claude Code, ob es die MCP-Server aus `.mcp.json` laden darf. Ja sagen. Beide laufen über OAuth: beim ersten Aufruf eines Tools öffnet sich der Browser zum Login.
+
+**Render-Route wählen.** Für fal.ai einen Key auf [fal.ai/dashboard/keys](https://fal.ai/dashboard/keys) holen und als `FAL_KEY` in die `.env` schreiben. Für Higgsfield reicht der OAuth-Login des MCP-Servers. Beide gleichzeitig geht auch.
 
 Dann im Chat:
 
@@ -43,35 +46,30 @@ Einrichtung prüfen:
 scripts/check-setup.sh
 ```
 
+Das Skript sagt dir zu jedem Punkt, was fehlt und wie du es behebst, und nennt dein fal-Guthaben.
+
 ## So sieht ein Lauf aus
 
 ```
 /pipeline https://www.facebook.com/ads/library/?id=... --marke demo
 ```
 
-oder mit einem Screenshot plus Transkript, wenn du die Ad nur als Bild hast. Alles, was ein Lauf erzeugt, liegt danach in `runs/<datum>-<slug>/`:
+oder mit einem Screenshot plus Transkript, wenn du die Ad nur als Bild hast. Willst du über fal.ai rendern: `--provider fal` anhängen. Alles, was ein Lauf erzeugt, liegt danach in `runs/<datum>-<slug>/`:
 
 ```
 runs/2026-09-06-demo/
 ├── source.md         die Ad, wie du sie reingegeben hast
 ├── teardown.md       die vier Teile
 ├── rebuild.md        Hook, Storyboard, Voiceover, Locks
-├── cost.md           was Higgsfield vor der Freigabe als Preis genannt hat
+├── cost.md           der Preis, den du vor der Freigabe gesehen hast
+├── prompts.json      die fünf Format-Prompts, wie sie ans Modell gingen
 ├── render.json       Job-IDs und Ergebnis-URLs je Format
 └── final/            gekennzeichnete Clips plus Kontaktblätter
 ```
 
-## Vom Handy aus
-
-Drei Wege, alle drei funktionieren heute, keiner braucht einen Trick. Ausführlich in [docs/mobile.md](docs/mobile.md).
-
-1. **Claude Code mit Remote Control.** Auf dem Mac `claude --remote-control` starten, dann die Session in der Claude-App am Handy übernehmen. Freigaben und Rückfragen laufen als Push auf dein Handy, solange die Verbindung steht.
-2. **Claude-App mit Projekt.** Den Prompt aus `prompts/orchestrator-system-prompt.md` als Projektanweisung, die Markendateien als Projektwissen, Higgsfield und KI-Kennzeichnung als Connectoren. Läuft komplett am Handy, ohne Mac.
-3. **Routine.** Ein Cloud-Lauf zu fester Uhrzeit, der eine Watchlist an Ads abarbeitet und dir die Briefings zur Freigabe hinlegt.
-
 ## Ein echter Lauf zum Nachlesen
 
-[examples/stur-run](examples/stur-run/) ist die Pipeline einmal komplett an einer echten Marke: Markenkontext von sturcookware.de, eine aktive HexClad-Ad aus der Meta Ad Library als Quelle, Teardown, Rebuild, fünf Formate über fal.ai gerendert, alle fünf gekennzeichnet, Kontaktblätter dabei. Inklusive der zwei Grenzen, die erst der Lauf gezeigt hat.
+[examples/stur-run](examples/stur-run/) ist die Pipeline einmal komplett an einer echten Marke: Markenkontext von sturcookware.de, eine aktive HexClad-Ad aus der Meta Ad Library als Quelle, Teardown, Rebuild, fünf Formate gerendert, alle fünf gekennzeichnet, Kontaktblätter dabei. Inklusive der zwei Grenzen, die erst der Lauf gezeigt hat.
 
 ## So sieht die Prüfung aus
 
@@ -83,15 +81,30 @@ Grün ist die nutzbare Reels-Zone, rot die Aktionsleiste, links oben das EU-Icon
 scripts/contact-sheet.sh docs/safe-zone-testclip-labeled.mp4
 ```
 
-## Was diese Pipeline von der Vorlage unterscheidet
+## Was gemessen ist und was nicht
 
-Die Idee, eine Wettbewerber-Ad zu zerlegen und um das eigene Produkt neu zu bauen, ist nicht neu. Drei Dinge sind hier anders:
+Damit du weißt, worauf du dich verlassen kannst:
+
+- **Verifiziert:** die Route über fal.ai (Seedance 2.0), die Kennzeichnung samt Nachweis der XMP-Markierung im File, die Safe-Zone-Geometrie, das Kontaktblatt, `check-setup.sh`, die Bibliothekspflege.
+- **Gebaut, aber nicht end-to-end gelaufen:** die Route über den Higgsfield-MCP. Sie folgt der dokumentierten Tool-Beschreibung, mangels Guthaben fehlt der Beweis. Prüf dort die Antworten des Servers, statt sie vorauszusetzen.
+- **Nicht gemessen:** wie oft die fünf Formate über viele Läufe hinweg unterscheidbar bleiben. Wir haben einen Lauf, keine Statistik.
+
+Ehrliche Grenzen stehen in [docs/grenzen.md](docs/grenzen.md), die typischen Fehler samt Fix in [docs/fehler-und-fixes.md](docs/fehler-und-fixes.md).
+
+## Vom Handy aus
+
+Drei Wege, alle drei funktionieren heute, keiner braucht einen Trick. Ausführlich in [docs/mobile.md](docs/mobile.md).
+
+1. **Claude Code mit Remote Control.** Auf dem Mac `claude --remote-control` starten, dann die Session in der Claude-App am Handy übernehmen. Freigaben und Rückfragen laufen als Push auf dein Handy, solange die Verbindung steht.
+2. **Claude-App mit Projekt.** Den Prompt aus `prompts/orchestrator-system-prompt.md` als Projektanweisung, die Markendateien als Projektwissen, die Connectoren aktivieren. Läuft komplett am Handy, ohne Mac.
+3. **Routine.** Ein Cloud-Lauf zu fester Uhrzeit, der eine Watchlist an Ads abarbeitet und dir die Briefings zur Freigabe hinlegt.
+
+## Was diese Pipeline von anderen unterscheidet
 
 - **Kennzeichnung ist ein Pipeline-Schritt, keine Nachfrage.** Seit dem 2. August 2026 gilt Art. 50 EU AI Act. Welche Pflicht dich trifft, hängt von deiner Rolle ab. Die Pipeline setzt Icon und Markierung auf jeden Clip, bevor er den Ordner verlässt. Ob damit deine Pflicht erfüllt ist, entscheidet dein Einzelfall, nicht ein Tool.
 - **Safe Zone ist Geometrie, keine Bitte.** Icon und Kontaktblatt arbeiten mit den ausgemessenen Meta-Safe-Zones. Reels ist dabei kein Rechteck, sondern ein L, weil die Aktionsleiste rechts hineinragt.
 - **Formate sind schwache Diversifikation.** Fünf Formate derselben Idee sind für Metas Auslieferung ein Kandidat mit fünf Gesichtern. `/rebuild --angles` baut stattdessen drei Rebuilds entlang der Kern-Angles Pain, Benefit, Proof. Das sind drei Kandidaten.
-
-Ehrliche Grenzen stehen in [docs/grenzen.md](docs/grenzen.md), die typischen Fehler samt Fix in [docs/fehler-und-fixes.md](docs/fehler-und-fixes.md).
+- **Der Halt vor dem Geld ist eingebaut.** Kein Render startet ohne das Wort `freigeben`, und der Preis steht vorher im Chat.
 
 ## Aufbau
 
@@ -99,12 +112,11 @@ Ehrliche Grenzen stehen in [docs/grenzen.md](docs/grenzen.md), die typischen Feh
 .claude/skills/     brand-setup, teardown, rebuild, render, label, pipeline
 .mcp.json           Higgsfield-MCP und KI-Kennzeichnung-MCP, Projekt-Scope
 CLAUDE.md           die Regeln, nach denen Claude Code hier arbeitet
-brand/_template/    die acht Markendateien als Vorlage
+brand/_template/    die neun Markendateien als Vorlage
 prompts/            Orchestrator-Prompt (Handy), Teardown, Rebuild, Format-Rahmen
-scripts/            check-setup, contact-sheet, rotate-library
-docs/               mobile, grenzen, fehler-und-fixes
-examples/demo-run/  Teardown plus Rebuild an einer konstruierten Ad
-examples/stur-run/  echter Lauf an STUR Cookware: fünf gerenderte, gekennzeichnete Clips
+scripts/            check-setup, contact-sheet, render-fal, fal-upload, rotate-library, render-html
+docs/               mobile, grenzen, fehler-und-fixes, post (Grafik fürs Ausspielen)
+examples/stur-run/  ein echter Lauf mit fünf gerenderten, gekennzeichneten Clips
 ```
 
 ## Lizenz
