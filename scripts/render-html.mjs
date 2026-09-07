@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // HTML → PNG über CDP. Port 0 + DevToolsActivePort, damit nie ein fremder Chrome gesteuert wird.
-//   node scripts/render-html.mjs <datei.html> <ziel.png> <breite> <hoehe|auto> [scale]
+//   node scripts/render-html.mjs <datei.html|http-url> <ziel.png> <breite> <hoehe|auto> [scale]
 // hoehe=auto misst die tatsächliche Dokumenthöhe, nichts wird abgeschnitten.
 import { spawn } from 'node:child_process';
 import fs from 'node:fs'; import path from 'node:path'; import os from 'node:os';
@@ -22,10 +22,11 @@ ws.addEventListener('message', ev => { const m = JSON.parse(ev.data); if (m.id &
 const send = (method, params = {}) => new Promise(res => { const i = ++id; pending.set(i, res); ws.send(JSON.stringify({ id: i, method, params })); });
 await send('Page.enable');
 await send('Emulation.setDeviceMetricsOverride', { width: w, height: h, deviceScaleFactor: scale, mobile: false });
-await send('Page.navigate', { url: 'file://' + path.resolve(html) });
+const url = /^https?:\/\//.test(html) ? html : 'file://' + path.resolve(html);
+await send('Page.navigate', { url });
 for (let i = 0; i < 80; i++) { if (events.some(e => e.method === 'Page.loadEventFired')) break; await sleep(100); }
 await send('Runtime.evaluate', { expression: 'document.fonts.ready.then(()=>true)', awaitPromise: true });
-await sleep(300);
+await sleep(900);   // dynamische Seiten holen ihre Daten erst nach dem Load
 if (auto) {
   const m = await send('Runtime.evaluate', { expression: 'Math.ceil(document.documentElement.scrollHeight)', returnByValue: true });
   h = m.result.result.value;

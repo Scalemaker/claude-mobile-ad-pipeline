@@ -73,9 +73,19 @@ runs/2026-09-06-demo/
 
 ## So wird sie benutzt
 
-Es gibt keine Oberfläche. Du tippst einen Befehl in Claude Code und liest mit, zwei Freigaben, fertig.
+Zwei Wege, gleicher Ablauf.
+
+**Im Chat.** Du tippst einen Befehl in Claude Code und liest mit, zwei Freigaben, fertig.
 
 ![Der Ablauf im Chat, echter Lauf an STUR](docs/post/ablauf.png)
+
+**Im Cockpit.** Wenn du lieber siehst statt scrollst, starte die lokale Seite:
+
+```bash
+python3 scripts/ui.py        # http://127.0.0.1:7788
+```
+
+Sie zeigt den Lauf nebeneinander: Quelle, Teardown, Briefing links, Preis mit Freigabe-Knopf, Render-Fortschritt und die fertigen Clips rechts. Sie denkt nicht, das macht weiter Claude Code, und sie startet nichts ohne deinen Klick. Ohne Abhängigkeiten, nur Python 3, und sie hört ausschließlich auf 127.0.0.1. Der mitgelieferte STUR-Lauf ist sofort sichtbar.
 
 ## So sieht die Prüfung aus
 
@@ -120,7 +130,7 @@ Drei Wege, alle drei funktionieren heute, keiner braucht einen Trick. Ausführli
 CLAUDE.md           die Regeln, nach denen Claude Code hier arbeitet
 brand/_template/    die neun Markendateien als Vorlage
 prompts/            Orchestrator-Prompt (Handy), Teardown, Rebuild, Format-Rahmen
-scripts/            check-setup, contact-sheet, render-fal, fal-upload, rotate-library, render-html
+scripts/            ui (lokales Cockpit), check-setup, contact-sheet, render-fal, fal-upload, rotate-library, render-html
 docs/               mobile, grenzen, fehler-und-fixes, post (Grafik fürs Ausspielen)
 examples/stur-run/  ein echter Lauf mit fünf gerenderten, gekennzeichneten Clips
 ```

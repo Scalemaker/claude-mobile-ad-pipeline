@@ -1,0 +1,206 @@
+<!doctype html><html lang="de"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ad Pipeline · Cockpit</title>
+<style>
+:root{--bg:#0e1013;--panel:#171a20;--sunk:#0b0d10;--line:#262b34;--txt:#f2f3f5;--mut:#8b93a1;--acc:#e8b04b;--ok:#3ddc84;--bad:#ff6b5f}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--txt);font:15px/1.5 -apple-system,"Helvetica Neue",Helvetica,Arial,sans-serif}
+header{position:sticky;top:0;z-index:5;background:rgba(14,16,19,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);padding:12px 20px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+header b{font-size:16px}
+.dot{width:9px;height:9px;border-radius:50%;background:var(--acc)}
+select{background:var(--sunk);color:var(--txt);border:1px solid var(--line);border-radius:9px;padding:7px 10px;font:inherit;font-size:14px}
+.step{margin-left:auto;display:flex;gap:6px;flex-wrap:wrap}
+.step span{border:1px solid var(--line);border-radius:999px;padding:5px 11px;font-size:12.5px;color:var(--mut)}
+.step span.on{border-color:var(--acc);color:var(--acc)}
+.step span.done{border-color:rgba(61,220,132,.4);color:var(--ok)}
+main{display:grid;grid-template-columns:1fr 400px;gap:16px;padding:16px 20px 40px;align-items:start}
+@media(max-width:1000px){main{grid-template-columns:1fr}}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;margin-bottom:16px;overflow:hidden}
+.card>h2{font-size:12px;letter-spacing:.13em;text-transform:uppercase;color:var(--mut);font-weight:600;padding:14px 18px;border-bottom:1px solid var(--line)}
+.card>.in{padding:16px 18px}
+.md h1{font-size:20px;margin:14px 0 8px}
+.md h2{font-size:17px;margin:14px 0 7px;text-transform:none;letter-spacing:0;color:var(--txt);padding:0;border:none}
+.md h3{font-size:15px;margin:12px 0 6px;color:var(--acc)}
+.md p{margin:0 0 9px;color:#d3d7de}
+.md ul,.md ol{margin:0 0 10px 20px;color:#d3d7de}
+.md li{margin-bottom:4px}
+.md strong{color:#fff}
+.md code{background:var(--sunk);border:1px solid var(--line);border-radius:5px;padding:1px 5px;font-family:ui-monospace,Menlo,monospace;font-size:13px;color:var(--acc)}
+.md pre{background:var(--sunk);border:1px solid var(--line);border-radius:10px;padding:12px;overflow-x:auto;margin:0 0 10px}
+.md pre code{background:none;border:none;padding:0;color:#cfd4dc}
+.md table{border-collapse:collapse;width:100%;margin:0 0 12px;font-size:14px}
+.md th,.md td{border:1px solid var(--line);padding:7px 9px;text-align:left;color:#d3d7de}
+.md th{background:var(--sunk);color:var(--mut);font-weight:600;font-size:12.5px}
+.md blockquote{border-left:3px solid var(--line);padding-left:12px;color:var(--mut);margin:0 0 10px}
+.md hr{border:none;border-top:1px solid var(--line);margin:14px 0}
+.fold{max-height:280px;overflow:hidden;position:relative}
+.fold.open{max-height:none}
+.fold:not(.open):after{content:"";position:absolute;left:0;right:0;bottom:0;height:70px;background:linear-gradient(transparent,var(--panel))}
+.more{display:block;width:100%;background:none;border:none;border-top:1px solid var(--line);color:var(--mut);padding:10px;font:inherit;font-size:13.5px;cursor:pointer}
+.more:hover{color:var(--txt)}
+.gate{background:linear-gradient(180deg,rgba(232,176,75,.07),transparent);border-color:rgba(232,176,75,.35)}
+.price{font-size:30px;font-weight:800;letter-spacing:-.5px}
+.price small{font-size:14px;color:var(--mut);font-weight:400;display:block;margin-top:3px}
+button.go{width:100%;background:var(--acc);color:#141414;border:none;border-radius:11px;padding:13px;font:inherit;font-weight:700;font-size:16px;cursor:pointer;margin-top:13px}
+button.go:hover{filter:brightness(1.07)}
+button.go:disabled{background:var(--sunk);color:var(--mut);border:1px solid var(--line);cursor:not-allowed;filter:none}
+.hint{font-size:12.5px;color:var(--mut);text-align:center;margin-top:8px;line-height:1.45}
+.jobs{display:flex;flex-direction:column;gap:8px}
+.job{display:flex;align-items:center;gap:10px;background:var(--sunk);border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-size:14px}
+.job .n{font-family:ui-monospace,Menlo,monospace}
+.job .s{margin-left:auto;font-size:12.5px;color:var(--mut)}
+.job .m{width:9px;height:9px;border-radius:50%;background:var(--mut);flex:none}
+.job.done .m{background:var(--ok)}.job.done .s{color:var(--ok)}
+.job.failed .m{background:var(--bad)}.job.failed .s{color:var(--bad)}
+.job.busy .m{background:var(--acc);animation:p 1s infinite}
+@keyframes p{50%{opacity:.25}}
+.tiles{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.tile{background:var(--sunk);border:1px solid var(--line);border-radius:11px;overflow:hidden}
+.tile video{width:100%;display:block;background:#000}
+.tile .cap{padding:7px 9px;font-size:12.5px;display:flex;align-items:center;gap:6px;white-space:nowrap}
+.tile .cap b{font-weight:600}
+.tile .cap i{margin-left:auto;font-style:normal;color:var(--ok);font-size:11px}
+.sheet{margin-top:10px}
+.sheet img{width:100%;border-radius:9px;border:1px solid var(--line);display:block}
+.empty{color:var(--mut);font-size:14px;padding:4px 0}
+.warn{background:rgba(232,176,75,.1);border:1px solid rgba(232,176,75,.3);color:var(--acc);border-radius:10px;padding:10px 12px;font-size:13.5px;margin-bottom:12px;line-height:1.45}
+</style></head><body>
+<header>
+  <span class="dot"></span><b>Ad Pipeline</b>
+  <select id="runs"></select>
+  <div class="step" id="steps"></div>
+</header>
+<main>
+  <div>
+    <div class="card"><h2>Quelle · Wettbewerber-Ad</h2><div class="in md fold" id="source"></div><button class="more" data-t="source">ganz zeigen</button></div>
+    <div class="card"><h2>Teardown</h2><div class="in md fold" id="teardown"></div><button class="more" data-t="teardown">ganz zeigen</button></div>
+    <div class="card"><h2>Rebuild · Briefing</h2><div class="in md fold" id="rebuild"></div><button class="more" data-t="rebuild">ganz zeigen</button></div>
+  </div>
+  <div>
+    <div class="card gate"><h2>Freigabe</h2><div class="in" id="gate"></div></div>
+    <div class="card"><h2>Render</h2><div class="in"><div class="jobs" id="jobs"></div></div></div>
+    <div class="card"><h2>Ergebnis · gekennzeichnet</h2><div class="in" id="result"></div></div>
+  </div>
+</main>
+<script>
+const $ = s => document.querySelector(s);
+let cur = null, open = {}, lastSig = null;
+
+function md(src){
+  if(!src) return '<p class="empty">noch nichts</p>';
+  const esc = s => s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  const inline = s => esc(s)
+    .replace(/`([^`]+)`/g,'<code>$1</code>')
+    .replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>')
+    .replace(/(^|[^*])\*([^*\n]+)\*/g,'$1<em>$2</em>')
+    .replace(/\[([^\]]+)\]\(([^)]+)\)/g,'<a href="$2" target="_blank" rel="noreferrer">$1</a>');
+  const out = []; const lines = src.split('\n');
+  let i = 0, list = null;
+  const closeList = () => { if(list){ out.push(`</${list}>`); list = null; } };
+  while(i < lines.length){
+    const l = lines[i];
+    if(/^```/.test(l)){ closeList(); const buf=[]; i++;
+      while(i<lines.length && !/^```/.test(lines[i])) buf.push(lines[i++]); i++;
+      out.push('<pre><code>'+esc(buf.join('\n'))+'</code></pre>'); continue; }
+    if(/^\s*\|/.test(l) && /^\s*\|[\s:|-]+\|\s*$/.test(lines[i+1]||'')){ closeList();
+      const cells = r => r.trim().replace(/^\||\|$/g,'').split('|').map(c=>inline(c.trim()));
+      out.push('<table><tr>'+cells(l).map(c=>`<th>${c}</th>`).join('')+'</tr>'); i+=2;
+      while(i<lines.length && /^\s*\|/.test(lines[i])) out.push('<tr>'+cells(lines[i++]).map(c=>`<td>${c}</td>`).join('')+'</tr>');
+      out.push('</table>'); continue; }
+    let m;
+    if(m = l.match(/^(#{1,4})\s+(.*)$/)){ closeList(); const n=Math.min(m[1].length,3); out.push(`<h${n}>${inline(m[2])}</h${n}>`); i++; continue; }
+    if(/^(---|___|\*\*\*)\s*$/.test(l)){ closeList(); out.push('<hr>'); i++; continue; }
+    if(m = l.match(/^\s*[-*]\s+(.*)$/)){ if(list!=='ul'){closeList(); out.push('<ul>'); list='ul';} out.push(`<li>${inline(m[1])}</li>`); i++; continue; }
+    if(m = l.match(/^\s*\d+\.\s+(.*)$/)){ if(list!=='ol'){closeList(); out.push('<ol>'); list='ol';} out.push(`<li>${inline(m[1])}</li>`); i++; continue; }
+    if(m = l.match(/^>\s?(.*)$/)){ closeList(); out.push(`<blockquote>${inline(m[1])}</blockquote>`); i++; continue; }
+    if(l.trim()===''){ closeList(); i++; continue; }
+    closeList(); const par=[l]; i++;
+    while(i<lines.length && lines[i].trim() && !/^(#|>|\s*[-*]\s|\s*\d+\.\s|\s*\||```|---)/.test(lines[i])) par.push(lines[i++]);
+    out.push(`<p>${inline(par.join(' '))}</p>`);
+  }
+  closeList(); return out.join('');
+}
+
+const STEPS = [['teardown','Teardown'],['briefing','Briefing'],['freigegeben','Freigabe'],['rendert','Render'],['gerendert','Render'],['fertig','Gekennzeichnet']];
+function steps(cur_step){
+  const order = ['teardown','briefing','freigegeben','rendert','gerendert','fertig'];
+  const idx = order.indexOf(cur_step);
+  const shown = [['teardown','Teardown'],['briefing','Briefing'],['freigegeben','Freigabe'],['gerendert','Render'],['fertig','Gekennzeichnet']];
+  $('#steps').innerHTML = shown.map(([k,label])=>{
+    const ki = order.indexOf(k);
+    const cls = idx>ki ? 'done' : (idx===ki || (k==='gerendert'&&cur_step==='rendert') ? 'on' : '');
+    return `<span class="${cls}">${label}</span>`;
+  }).join('');
+}
+
+function fold(id, html){
+  const el = $('#'+id); el.innerHTML = html;
+  const btn = document.querySelector(`.more[data-t="${id}"]`);
+  const tall = el.scrollHeight > 290;
+  btn.style.display = tall ? 'block' : 'none';
+  el.classList.toggle('open', !!open[id]);
+  btn.textContent = open[id] ? 'einklappen' : 'ganz zeigen';
+}
+document.querySelectorAll('.more').forEach(b=>b.onclick=()=>{ const t=b.dataset.t; open[t]=!open[t]; $('#'+t).classList.toggle('open',open[t]); b.textContent=open[t]?'einklappen':'ganz zeigen'; });
+window.addEventListener('keydown', e => { if(e.key==='r' && (e.metaKey||e.ctrlKey)) lastSig=null; });
+
+async function load(id, force){
+  const r = await fetch('/api/run/'+encodeURIComponent(id)); const s = await r.json();
+  // Nur neu zeichnen, wenn sich wirklich etwas geändert hat, sonst springt die Seite beim Lesen.
+  const sig = JSON.stringify(s);
+  if(!force && sig === lastSig){ cur = s; return; }
+  lastSig = sig; cur = s; steps(s.step);
+  fold('source', md(s.source)); fold('teardown', md(s.teardown)); fold('rebuild', md(s.rebuild));
+
+  const ro = s.beispiel ? '<div class="warn">Beispiel-Lauf, schreibgeschützt. Er zeigt dir den Endzustand. Eigene Läufe legt Claude Code unter <code>runs/</code> an.</div>' : '';
+  const erledigt = (s.step==='fertig'||s.step==='gerendert');
+  if(erledigt && !s.approved){
+    $('#gate').innerHTML = ro + `<div class="price" style="color:var(--ok)">erledigt</div>
+      <small style="color:var(--mut)">${s.cost_total?s.cost_total+' gekostet, ':''}alle Formate gerendert und gekennzeichnet</small>
+      <div class="md" style="margin-top:12px;font-size:14px">${md(s.cost)}</div>`;
+  } else if(s.approved){
+    $('#gate').innerHTML = ro + `<div class="price" style="color:var(--ok)">freigegeben</div>
+      <small style="color:var(--mut)">am ${s.approved.at}${s.approved.kosten?' · '+s.approved.kosten:''}</small>
+      <button class="go" id="render" ${(s.running||s.step!=='freigegeben')?'disabled':''}>${s.running?'rendert…':(s.step==='freigegeben'?'Render starten':'Render erledigt')}</button>
+      <div class="hint">${s.has_prompts?'prompts.json liegt bereit':'prompts.json fehlt noch, Claude Code schreibt sie im Schritt /render'}</div>`;
+  } else if(s.cost_total){
+    $('#gate').innerHTML = ro + `<div class="price">${s.cost_total}<small>für alle Formate, bevor etwas läuft</small></div>
+      <div class="md" style="margin-top:12px;font-size:14px">${md(s.cost)}</div>
+      <button class="go" id="approve" ${s.beispiel?'disabled':''}>freigeben</button>
+      <div class="hint">Ohne Klick rendert nichts. Die Freigabe wird als Datei im Lauf abgelegt.</div>`;
+  } else {
+    $('#gate').innerHTML = ro + `<p class="empty">Noch kein Preis. Er erscheint, sobald Claude Code <code>cost.md</code> in den Lauf schreibt.</p>`;
+  }
+  const ap = $('#approve'); if(ap) ap.onclick = async () => { ap.disabled=true; ap.textContent='…'; await fetch(`/api/run/${id}/approve`,{method:'POST'}); lastSig=null; load(id,true); };
+  const rn = $('#render'); if(rn) rn.onclick = async () => { rn.disabled=true; rn.textContent='startet…';
+    const res = await (await fetch(`/api/run/${id}/render`,{method:'POST'})).json();
+    if(!res.ok) alert(res.msg); lastSig=null; load(id,true); };
+
+  const js = Object.entries(s.jobs||{});
+  $('#jobs').innerHTML = js.length ? js.map(([n,j])=>{
+    const cls = j.status==='done'?'done':(j.status==='failed'?'failed':'busy');
+    const info = j.status==='done'?(j.seconds+' s'):(j.status==='failed'?'fehlgeschlagen':j.status);
+    return `<div class="job ${cls}"><span class="m"></span><span class="n">${n}</span><span class="s">${info}</span></div>`;
+  }).join('') : '<p class="empty">Noch nichts gerendert.</p>';
+
+  const vids = (s.media||[]).filter(m=>m.kind==='video');
+  const sheets = (s.media||[]).filter(m=>m.kind==='sheet');
+  $('#result').innerHTML = vids.length
+    ? `<div class="tiles">${vids.map(v=>`<div class="tile"><video src="${v.url}" controls preload="metadata"></video><div class="cap"><b>${v.format}</b><i>✓ gekennzeichnet</i></div></div>`).join('')}</div>`
+      + (sheets.length?`<div class="sheet"><img src="${sheets[0].url}" alt="Kontaktblatt"><div class="hint" style="text-align:left;margin-top:6px">Kontaktblatt ${sheets[0].format}: grün ist die nutzbare Reels-Zone, rot die Aktionsleiste, links oben das EU-Icon.</div></div>`:'')
+    : '<p class="empty">Noch keine gekennzeichneten Clips.</p>';
+}
+
+async function boot(){
+  const runs = await (await fetch('/api/runs')).json();
+  $('#runs').innerHTML = runs.map(r=>`<option value="${r.id}">${r.id}${r.beispiel?' (Beispiel)':''}</option>`).join('') || '<option>keine Läufe</option>';
+  if(!runs.length){ $('#gate').innerHTML='<p class="empty">Kein Lauf gefunden. Starte einen mit <code>/pipeline</code> in Claude Code.</p>'; return; }
+  const pick = decodeURIComponent(location.hash.slice(1));
+  const start = runs.some(r=>r.id===pick) ? pick : runs[0].id;
+  $('#runs').value = start;
+  $('#runs').onchange = e => { open={}; lastSig=null; location.hash = encodeURIComponent(e.target.value); load(e.target.value, true); };
+  load(start, true);
+  setInterval(()=>{ if(cur) load(cur.id); }, 2500);
+}
+boot();
+</script></body></html>
