@@ -89,6 +89,8 @@ python3 scripts/ui.py        # http://127.0.0.1:7788
 
 Sie zeigt den Lauf nebeneinander: Quelle, Teardown, Briefing links, Preis mit Freigabe-Knopf, Render-Fortschritt und die fertigen Clips rechts. Sie denkt nicht, das macht weiter Claude Code, und sie startet nichts ohne deinen Klick. Ohne Abhängigkeiten, nur Python 3, und sie hört ausschließlich auf 127.0.0.1. Der mitgelieferte STUR-Lauf ist sofort sichtbar.
 
+**Zum Ansehen ohne Installation:** [cockpit-ui-lyart.vercel.app](https://cockpit-ui-lyart.vercel.app) zeigt denselben Ablauf zum Durchklicken, mit den echten Daten dieses Laufs. Das ist ein Prototyp, er rendert nichts und kostet nichts. Quelltext: [Scalemaker/ad-pipeline-cockpit](https://github.com/Scalemaker/ad-pipeline-cockpit).
+
 ## So sieht die Prüfung aus
 
 ![Kontaktblatt eines gekennzeichneten Testclips](docs/kontaktblatt-beispiel.jpg)

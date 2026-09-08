@@ -172,6 +172,8 @@ class Handler(BaseHTTPRequestHandler):
         path = unquote(urlparse(self.path).path)
         if path in ("/", "/index.html"):
             return self._send(200, read(UI / "index.html"), "text/html; charset=utf-8")
+        if path == "/cockpit.css":
+            return self._send(200, read(UI / "cockpit.css"), "text/css; charset=utf-8")
         if path == "/api/runs":
             return self._send(200, [{"id": d.name, "beispiel": d.parent.name == "examples",
                                      "step": state(d)["step"]} for d in run_dirs()])

@@ -1,0 +1,144 @@
+/* Cockpit · Stile
+   Eine Datei, oben die Stellschrauben. Wer das Aussehen ändern will, ändert
+   zuerst die Tokens und erst danach die Regeln darunter.
+   Zum Ausprobieren ohne Server: docs/ui-preview.html im Browser öffnen. */
+
+/* ---------- Tokens ---------- */
+:root{
+  --bg:#0e1013;          /* Seitengrund */
+  --panel:#171a20;       /* Karten */
+  --sunk:#0b0d10;        /* eingelassene Flächen, Code, Tabellenkopf */
+  --line:#262b34;        /* Rahmen und Trenner */
+  --txt:#f2f3f5;         /* Fliesstext */
+  --mut:#8b93a1;         /* Nebensächliches */
+  --acc:#e8b04b;         /* Aktion, Freigabe, aktueller Schritt */
+  --ok:#3ddc84;          /* erledigt */
+  --bad:#ff6b5f;         /* fehlgeschlagen */
+  --r-card:16px;         /* Kantenrundung Karten */
+  --r-el:11px;           /* Kantenrundung Knöpfe und Felder */
+  --pad:18px;            /* Innenabstand Karten */
+  --gap:16px;            /* Abstand zwischen Karten */
+  --side:400px;          /* Breite der rechten Spalte am Schreibtisch */
+  --font:-apple-system,"Helvetica Neue",Helvetica,Arial,sans-serif;
+  --mono:ui-monospace,Menlo,Consolas,monospace;
+}
+
+/* ---------- Grundgerüst ---------- */
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--txt);font:15px/1.5 var(--font);overflow-x:hidden}
+a{color:var(--acc)}
+:focus-visible{outline:2px solid var(--acc);outline-offset:2px;border-radius:6px}
+
+header{position:sticky;top:0;z-index:5;background:rgba(14,16,19,.94);backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--line);padding:10px 20px;display:flex;align-items:center;gap:12px}
+.brand{display:flex;align-items:center;gap:9px;font-weight:600;font-size:16px;white-space:nowrap}
+.dot{width:9px;height:9px;border-radius:50%;background:var(--acc);flex:none}
+select{background:var(--sunk);color:var(--txt);border:1px solid var(--line);border-radius:9px;
+  padding:7px 10px;font:inherit;font-size:14px;max-width:100%}
+
+/* Schrittleiste: breit als Badges, schmal als eine Zeile */
+.step{margin-left:auto;display:flex;gap:6px}
+.step span{border:1px solid var(--line);border-radius:999px;padding:5px 11px;font-size:12.5px;color:var(--mut);white-space:nowrap}
+.step span.on{border-color:var(--acc);color:var(--acc)}
+.step span.done{border-color:rgba(61,220,132,.4);color:var(--ok)}
+.step-compact{display:none;margin-left:auto;font-size:13px;color:var(--acc);white-space:nowrap}
+.step-compact b{color:var(--mut);font-weight:400}
+
+main{display:grid;grid-template-columns:1fr var(--side);gap:var(--gap);padding:var(--gap) 20px 40px;align-items:start}
+
+/* ---------- Karten ---------- */
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--r-card);margin-bottom:var(--gap);overflow:hidden}
+.card>h2{font-size:12px;letter-spacing:.13em;text-transform:uppercase;color:var(--mut);font-weight:600;
+  padding:14px var(--pad);border-bottom:1px solid var(--line)}
+.card>.in{padding:var(--pad)}
+.gate{background:linear-gradient(180deg,rgba(232,176,75,.07),transparent);border-color:rgba(232,176,75,.35)}
+
+/* ---------- Text aus den Markdown-Dateien ---------- */
+.md{overflow-wrap:anywhere}
+.md h1{font-size:20px;margin:14px 0 8px}
+.md h2{font-size:17px;margin:14px 0 7px;text-transform:none;letter-spacing:0;color:var(--txt);padding:0;border:none}
+.md h3{font-size:15px;margin:12px 0 6px;color:var(--acc)}
+.md p{margin:0 0 9px;color:#d3d7de}
+.md ul,.md ol{margin:0 0 10px 20px;color:#d3d7de}
+.md li{margin-bottom:4px}
+.md strong{color:#fff}
+.md code{background:var(--sunk);border:1px solid var(--line);border-radius:5px;padding:1px 5px;font-family:var(--mono);font-size:13px;color:var(--acc)}
+.md pre{background:var(--sunk);border:1px solid var(--line);border-radius:10px;padding:12px;overflow-x:auto;margin:0 0 10px}
+.md pre code{background:none;border:none;padding:0;color:#cfd4dc}
+.md .tw{overflow-x:auto;margin:0 0 12px}          /* Tabellen dürfen scrollen statt zu sprengen */
+.md table{border-collapse:collapse;width:100%;font-size:14px}
+.md th,.md td{border:1px solid var(--line);padding:7px 9px;text-align:left;color:#d3d7de}
+.md th{background:var(--sunk);color:var(--mut);font-weight:600;font-size:12.5px;white-space:nowrap}
+.md blockquote{border-left:3px solid var(--line);padding-left:12px;color:var(--mut);margin:0 0 10px}
+.md hr{border:none;border-top:1px solid var(--line);margin:14px 0}
+
+/* ---------- Lange Blöcke einklappen ---------- */
+.fold{max-height:280px;overflow:hidden;position:relative}
+.fold.open{max-height:none}
+.fold:not(.open):after{content:"";position:absolute;left:0;right:0;bottom:0;height:70px;
+  background:linear-gradient(transparent,var(--panel));pointer-events:none}
+.more{display:block;width:100%;background:none;border:none;border-top:1px solid var(--line);
+  color:var(--mut);padding:11px;font:inherit;font-size:13.5px;cursor:pointer}
+.more:hover{color:var(--txt)}
+
+/* ---------- Freigabe ---------- */
+.price{font-size:30px;font-weight:800;letter-spacing:-.5px}
+.price small{font-size:14px;color:var(--mut);font-weight:400;display:block;margin-top:3px}
+button.go{width:100%;background:var(--acc);color:#141414;border:none;border-radius:var(--r-el);
+  padding:14px;font:inherit;font-weight:700;font-size:16px;cursor:pointer;margin-top:13px}
+button.go:hover{filter:brightness(1.07)}
+button.go:disabled{background:var(--sunk);color:var(--mut);border:1px solid var(--line);cursor:not-allowed;filter:none}
+.hint{font-size:12.5px;color:var(--mut);text-align:center;margin-top:8px;line-height:1.45}
+.warn{background:rgba(232,176,75,.1);border:1px solid rgba(232,176,75,.3);color:var(--acc);
+  border-radius:10px;padding:10px 12px;font-size:13.5px;margin-bottom:12px;line-height:1.45}
+
+/* ---------- Render-Status ---------- */
+.jobs{display:flex;flex-direction:column;gap:8px}
+.job{display:flex;align-items:center;gap:10px;background:var(--sunk);border:1px solid var(--line);
+  border-radius:10px;padding:10px 12px;font-size:14px}
+.job .n{font-family:var(--mono)}
+.job .s{margin-left:auto;font-size:12.5px;color:var(--mut)}
+.job .m{width:9px;height:9px;border-radius:50%;background:var(--mut);flex:none}
+.job.done .m{background:var(--ok)}   .job.done .s{color:var(--ok)}
+.job.failed .m{background:var(--bad)}.job.failed .s{color:var(--bad)}
+.job.busy .m{background:var(--acc);animation:puls 1s infinite}
+@keyframes puls{50%{opacity:.25}}
+@media (prefers-reduced-motion:reduce){.job.busy .m{animation:none}}
+
+/* ---------- Ergebnis ---------- */
+.tiles{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.tile{background:var(--sunk);border:1px solid var(--line);border-radius:var(--r-el);overflow:hidden}
+.tile video{width:100%;display:block;background:#000;aspect-ratio:9/16;object-fit:cover}
+.tile .cap{padding:7px 9px;font-size:12.5px;display:flex;align-items:center;gap:6px;white-space:nowrap}
+.tile .cap b{font-weight:600}
+.tile .cap i{margin-left:auto;font-style:normal;color:var(--ok);font-size:11px}
+.sheet{margin-top:10px}
+.sheet img{width:100%;border-radius:9px;border:1px solid var(--line);display:block}
+.empty{color:var(--mut);font-size:14px;padding:4px 0}
+
+/* ---------- Verbindungsabriss ---------- */
+.offline{position:fixed;left:50%;transform:translateX(-50%);bottom:18px;z-index:20;
+  background:var(--bad);color:#180b0a;font-weight:700;font-size:14px;padding:10px 16px;border-radius:999px;
+  box-shadow:0 8px 30px rgba(0,0,0,.5)}
+
+/* ---------- Schmale Schirme ---------- */
+@media (max-width:1000px){
+  main{grid-template-columns:1fr;padding:12px 12px 32px;gap:12px}
+  .card{margin-bottom:12px}
+  /* Freigabe und Ergebnis zuerst, der Lesestoff darunter */
+  .col-side{order:-1}
+}
+@media (max-width:700px){
+  header{padding:9px 12px;gap:9px}
+  .brand{font-size:15px}
+  .brand .long{display:none}
+  select{flex:1;min-width:0}
+  .step{display:none}
+  .step-compact{display:block}
+  main{padding:12px 12px 28px}
+  :root{--pad:14px}
+  .card>h2{padding:12px 14px}
+  .price{font-size:26px}
+  .tiles{grid-template-columns:1fr 1fr;gap:8px}
+  .fold{max-height:220px}
+}
