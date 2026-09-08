@@ -13,6 +13,7 @@ python3 scripts/ui.py --port 8000
 
 | Bereich | Inhalt |
 |---|---|
+| Neue Ad | Link, Transkript und optional ein Video oder Screenshot. Legt `runs/<datum>-<slug>/` mit `source.md` an und nennt dir den Befehl für Claude Code |
 | links | `source.md`, `teardown.md`, `rebuild.md` des Laufs, als Text gesetzt |
 | Freigabe | die Summe aus `cost.md` und ein Knopf. Der Klick schreibt `approved.json` in den Lauf |
 | Render | Status je Format aus `render.json`, aktualisiert sich von selbst |
@@ -20,7 +21,7 @@ python3 scripts/ui.py --port 8000
 
 ## Was sie nicht tut
 
-- **Sie denkt nicht.** Teardown und Rebuild schreibt Claude Code in den Lauf-Ordner. Die Seite liest sie nur.
+- **Sie denkt nicht.** Sie nimmt die Ad entgegen und legt den Ordner an. Teardown und Rebuild schreibt Claude Code hinein, danach liest die Seite sie.
 - **Sie gibt nichts von allein aus.** Der Render startet erst nach Klick, und nur wenn `approved.json` und `prompts.json` da sind. Beides wird serverseitig geprüft, nicht im Browser.
 - **Sie kennzeichnet nicht.** Das läuft über den MCP in Claude Code, siehe `/label`.
 - **Sie ist nicht aus dem Netz erreichbar.** Der Server bindet an 127.0.0.1.

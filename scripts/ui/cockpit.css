@@ -92,6 +92,24 @@ button.go:disabled{background:var(--sunk);color:var(--mut);border:1px solid var(
 .warn{background:rgba(232,176,75,.1);border:1px solid rgba(232,176,75,.3);color:var(--acc);
   border-radius:10px;padding:10px 12px;font-size:13.5px;margin-bottom:12px;line-height:1.45}
 
+/* ---------- Neue Ad ---------- */
+details#neu{background:var(--panel);border:1px solid var(--line);border-radius:var(--r-card);margin-bottom:var(--gap)}
+details#neu>summary{cursor:pointer;list-style:none;padding:14px var(--pad);font-size:12px;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--acc);font-weight:600}
+details#neu>summary::-webkit-details-marker{display:none}
+details#neu>summary:before{content:"+ ";font-weight:700}
+details#neu[open]>summary{border-bottom:1px solid var(--line)}
+details#neu[open]>summary:before{content:"– "}
+.feld{display:block;margin-bottom:11px}
+.feld>span{display:block;font-size:12.5px;color:var(--mut);margin-bottom:5px}
+.feld input[type=text],.feld input:not([type]),.feld textarea{width:100%;background:var(--sunk);color:var(--txt);
+  border:1px solid var(--line);border-radius:9px;padding:9px 11px;font:inherit;font-size:14px}
+.feld textarea{resize:vertical;min-height:74px}
+.feld input[type=file]{width:100%;font-size:13px;color:var(--mut)}
+.fertig{margin-top:12px;border-top:1px solid var(--line);padding-top:12px;font-size:14px;color:#d3d7de}
+.fertig pre{background:var(--sunk);border:1px solid var(--line);border-radius:9px;padding:10px;margin:8px 0;overflow-x:auto}
+.fertig code{font-family:var(--mono);font-size:13px;color:var(--acc)}
+
 /* ---------- Render-Status ---------- */
 .jobs{display:flex;flex-direction:column;gap:8px}
 .job{display:flex;align-items:center;gap:10px;background:var(--sunk);border:1px solid var(--line);

@@ -18,6 +18,18 @@
     <div class="card"><h2>Rebuild · Briefing</h2><div class="in md fold" id="rebuild"></div><button class="more" data-t="rebuild">ganz zeigen</button></div>
   </div>
   <div class="col-side">
+    <details class="card" id="neu">
+      <summary>Neue Ad reingeben</summary>
+      <div class="in">
+        <label class="feld"><span>Marke</span><input id="n-marke" placeholder="stur" autocomplete="off"></label>
+        <label class="feld"><span>Link zur Wettbewerber-Ad</span><input id="n-link" placeholder="https://www.facebook.com/ads/library/?id=…" autocomplete="off"></label>
+        <label class="feld"><span>Transkript oder Notizen</span><textarea id="n-notiz" rows="4" placeholder="Was gesagt wird, was zu sehen ist. Beides hilft dem Teardown."></textarea></label>
+        <label class="feld"><span>Video oder Screenshot, optional</span><input id="n-datei" type="file" accept="video/*,image/*"></label>
+        <button class="go" id="n-los">Lauf anlegen</button>
+        <p class="hint">Das legt nur den Ordner an. Gedacht wird danach in Claude Code, gerendert erst nach deiner Freigabe.</p>
+        <div id="n-ergebnis"></div>
+      </div>
+    </details>
     <div class="card gate"><h2>Freigabe</h2><div class="in" id="gate"></div></div>
     <div class="card"><h2>Render</h2><div class="in"><div class="jobs" id="jobs"></div></div></div>
     <div class="card"><h2>Ergebnis · gekennzeichnet</h2><div class="in" id="result"></div></div>
@@ -155,6 +167,39 @@ async function load(id, force){
       + (sheets.length?`<div class="sheet"><img src="${sheets[0].url}" alt="Kontaktblatt ${sheets[0].format}"><div class="hint" style="text-align:left;margin-top:6px">Kontaktblatt ${sheets[0].format}: grün ist die nutzbare Reels-Zone, rot die Aktionsleiste, links oben das EU-Icon.</div></div>`:'')
     : '<p class="empty">Noch keine gekennzeichneten Clips.</p>';
 }
+
+/* Neue Ad: Ordner anlegen, Datei hochladen, danach den Befehl für Claude Code zeigen. */
+$('#n-los').onclick = async () => {
+  const btn = $('#n-los'), out = $('#n-ergebnis');
+  const marke = $('#n-marke').value.trim(), link = $('#n-link').value.trim(), notiz = $('#n-notiz').value.trim();
+  const datei = $('#n-datei').files[0];
+  if(!link && !notiz && !datei){ out.innerHTML = '<p class="warn" style="margin-top:12px">Gib einen Link an, füg das Transkript ein oder wähl eine Datei.</p>'; return; }
+  btn.disabled = true; btn.textContent = 'legt an…';
+  try{
+    const r = await fetch('/api/new', {method:'POST', headers:{'content-type':'application/json'},
+      body: JSON.stringify({marke, link, notiz: notiz || (datei ? 'Kein Transkript eingegeben, Datei liegt im Ordner.' : '')})});
+    const j = await r.json();
+    if(!r.ok) throw new Error(j.error || 'ging nicht');
+    if(datei){
+      btn.textContent = 'lädt Datei…';
+      const up = await fetch(`/api/run/${j.id}/asset`, {method:'PUT', headers:{'X-Dateiname': datei.name}, body: datei});
+      if(!up.ok){ const e = await up.json(); throw new Error(e.error || 'Datei ging nicht durch'); }
+    }
+    out.innerHTML = `<div class="fertig">
+        <p><b>Lauf angelegt:</b> <code>runs/${j.id}</code></p>
+        <p style="margin-top:8px">Jetzt in Claude Code im Repo:</p>
+        <pre><code>/pipeline --lauf ${j.id}${marke ? ' --marke ' + marke : ''}</code></pre>
+        <p class="hint" style="text-align:left">Sobald Teardown und Briefing geschrieben sind, erscheinen sie hier.</p>
+      </div>`;
+    $('#n-marke').value = $('#n-link').value = $('#n-notiz').value = ''; $('#n-datei').value = '';
+    const runs = await (await fetch('/api/runs')).json();
+    $('#runs').innerHTML = runs.map(r=>`<option value="${r.id}">${r.id}${r.beispiel?' (Beispiel)':''}</option>`).join('');
+    $('#runs').value = j.id; lastSig = null; load(j.id, true);
+  }catch(e){
+    out.innerHTML = `<p class="warn" style="margin-top:12px">${e.message}</p>`;
+  }
+  btn.disabled = false; btn.textContent = 'Lauf anlegen';
+};
 
 async function boot(){
   let runs;

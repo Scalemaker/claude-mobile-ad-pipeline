@@ -5,6 +5,8 @@ description: Zerlegt eine Wettbewerber-Ad in Hook, Überzeugungsmechanik, emotio
 
 # /teardown <ad> --marke <marke>
 
+Statt `<ad>` geht auch `--lauf <id>`. Dann existiert `runs/<id>/source.md` schon, angelegt über das Cockpit. Nimm sie als Quelle, leg keinen neuen Ordner an, und lies eine mitgegebene Video- oder Bilddatei im selben Ordner mit.
+
 ## Eingabe
 
 Eine von drei Formen:
@@ -15,7 +17,7 @@ Eine von drei Formen:
 ## Ablauf
 
 1. `brand/<marke>/icp_core.md` lesen. Teil 1 des Teardowns bezieht sich auf diesen Zielkunden, nicht auf einen allgemeinen.
-2. Lauf-Ordner anlegen: `runs/<YYYY-MM-DD>-<slug>/`. Slug aus Wettbewerber und Hook, kurz. Eingabe als `source.md` ablegen: Quelle, Transkript, Beschreibung der Frames.
+2. Lauf-Ordner anlegen: `runs/<YYYY-MM-DD>-<slug>/`. Slug aus Wettbewerber und Hook, kurz. Eingabe als `source.md` ablegen: Quelle, Transkript, Beschreibung der Frames. Mit `--lauf <id>` entfällt das, der Ordner ist da: `source.md` ergänzen statt überschreiben.
 3. Prompt aus `prompts/teardown.md` ausführen. Ausgabe nach `runs/<id>/teardown.md`.
 4. Prüfen, bevor es weitergeht:
    - Steht die Quelle in Zeile 1?

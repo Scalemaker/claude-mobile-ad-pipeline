@@ -134,6 +134,46 @@ def state(d):
     }
 
 
+MAX_UPLOAD = 300 * 1024 * 1024   # 300 MB, mehr braucht eine Ad nicht
+
+
+def slugify(text, fallback="lauf"):
+    t = re.sub(r"[^a-z0-9]+", "-", (text or "").lower()).strip("-")
+    return (t[:40] or fallback)
+
+
+def neuer_lauf(marke, link, notiz):
+    """Legt runs/<datum>-<slug>/ mit source.md an. Mehr nicht: das Denken macht Claude Code."""
+    marke = (marke or "").strip()
+    link = (link or "").strip()
+    notiz = (notiz or "").strip()
+    if not (link or notiz):
+        return None, "Gib einen Link zur Ad an oder füg das Transkript ein."
+    ad_id = ""
+    m = re.search(r"[?&]id=(\d+)", link)
+    if m:
+        ad_id = m.group(1)
+    slug = slugify(marke or "lauf") + ("-" + ad_id[-6:] if ad_id else "")
+    base = ROOT / "runs" / f"{time.strftime('%Y-%m-%d')}-{slug}"
+    n = 2
+    while base.exists():
+        base = base.with_name(f"{base.name.rsplit('-', 1)[0] if n > 2 else base.name}-{n}")
+        n += 1
+    base.mkdir(parents=True)
+    zeilen = ["# Quelle", ""]
+    if marke:
+        zeilen += [f"**Marke:** {marke}", ""]
+    if link:
+        zeilen += [f"**Wettbewerber-Ad:** {link}", ""]
+    if ad_id:
+        zeilen += [f"Bibliotheks-ID: {ad_id}", ""]
+    zeilen += [f"Angelegt am {time.strftime('%d.%m.%Y um %H:%M')} über das Cockpit.", ""]
+    if notiz:
+        zeilen += ["## Transkript und Notizen", "", notiz, ""]
+    (base / "source.md").write_text("\n".join(zeilen), encoding="utf-8")
+    return base, None
+
+
 def start_render(d):
     """Startet render-fal.py als Unterprozess. Nur nach Freigabe, nur einmal."""
     if not (d / "approved.json").exists():
@@ -194,8 +234,48 @@ class Handler(BaseHTTPRequestHandler):
             return self._send(200, data, ctype, {"Accept-Ranges": "none"})
         self._send(404, {"error": "nicht gefunden"})
 
+    def _body(self, limit):
+        try:
+            n = int(self.headers.get("Content-Length") or 0)
+        except ValueError:
+            return None
+        if n <= 0 or n > limit:
+            return None
+        return self.rfile.read(n)
+
+    def do_PUT(self):
+        """Datei in einen Lauf legen. Rohe Bytes im Rumpf, Name im Kopf X-Dateiname."""
+        path = unquote(urlparse(self.path).path)
+        m = re.fullmatch(r"/api/run/([^/]+)/asset", path)
+        if not m:
+            return self._send(404, {"error": "nicht gefunden"})
+        d = find_run(m.group(1))
+        if not d:
+            return self._send(404, {"error": "unbekannter Lauf"})
+        if d.parent.name == "examples":
+            return self._send(400, {"error": "Beispiel-Läufe sind schreibgeschützt."})
+        name = pathlib.Path(unquote(self.headers.get("X-Dateiname") or "datei")).name
+        name = re.sub(r"[^A-Za-z0-9._-]", "_", name)[:80] or "datei"
+        data = self._body(MAX_UPLOAD)
+        if data is None:
+            return self._send(400, {"error": f"Datei fehlt oder ist größer als {MAX_UPLOAD // 1024 // 1024} MB."})
+        (d / name).write_bytes(data)
+        with (d / "source.md").open("a", encoding="utf-8") as f:
+            f.write(f"\nMitgegeben: `{name}` ({len(data) // 1024} KB), liegt im Lauf-Ordner.\n")
+        return self._send(200, {"ok": True, "datei": name, "bytes": len(data)})
+
     def do_POST(self):
         path = unquote(urlparse(self.path).path)
+        if path == "/api/new":
+            raw = self._body(64 * 1024)
+            try:
+                payload = json.loads(raw or b"{}")
+            except Exception:
+                return self._send(400, {"error": "ungültige Anfrage"})
+            d, err = neuer_lauf(payload.get("marke"), payload.get("link"), payload.get("notiz"))
+            if err:
+                return self._send(400, {"error": err})
+            return self._send(200, {"id": d.name})
         m = re.fullmatch(r"/api/run/([^/]+)/(approve|render)", path)
         if not m:
             return self._send(404, {"error": "nicht gefunden"})

@@ -5,6 +5,8 @@ description: Fährt die komplette Ad-Pipeline in einem Zug, von der Wettbewerber
 
 # /pipeline <ad> --marke <marke> [--angles] [--formate …]
 
+`--lauf <id>` statt `<ad>` nimmt einen Lauf, den das Cockpit schon angelegt hat. Quelle steht dann in `runs/<id>/source.md`.
+
 ## Ablauf
 
 1. `/teardown <ad> --marke <marke>`

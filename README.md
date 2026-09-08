@@ -87,7 +87,7 @@ python3 scripts/ui.py        # http://127.0.0.1:7788
 
 ![Das Cockpit mit dem STUR-Lauf](docs/post/cockpit.png)
 
-Sie zeigt den Lauf nebeneinander: Quelle, Teardown, Briefing links, Preis mit Freigabe-Knopf, Render-Fortschritt und die fertigen Clips rechts. Sie denkt nicht, das macht weiter Claude Code, und sie startet nichts ohne deinen Klick. Ohne Abhängigkeiten, nur Python 3, und sie hört ausschließlich auf 127.0.0.1. Der mitgelieferte STUR-Lauf ist sofort sichtbar.
+Dort gibst du die Wettbewerber-Ad rein, per Link, Transkript oder Datei. Das Cockpit legt den Lauf an und nennt dir den Befehl für Claude Code. Danach zeigt es den Lauf nebeneinander: Quelle, Teardown, Briefing links, Preis mit Freigabe-Knopf, Render-Fortschritt und die fertigen Clips rechts. Sie denkt nicht, das macht weiter Claude Code, und sie startet nichts ohne deinen Klick. Ohne Abhängigkeiten, nur Python 3, und sie hört ausschließlich auf 127.0.0.1. Der mitgelieferte STUR-Lauf ist sofort sichtbar.
 
 **Zum Ansehen ohne Installation:** [cockpit-ui-lyart.vercel.app](https://cockpit-ui-lyart.vercel.app) zeigt denselben Ablauf zum Durchklicken, mit den echten Daten dieses Laufs. Das ist ein Prototyp, er rendert nichts und kostet nichts. Quelltext: [Scalemaker/ad-pipeline-cockpit](https://github.com/Scalemaker/ad-pipeline-cockpit).
 
