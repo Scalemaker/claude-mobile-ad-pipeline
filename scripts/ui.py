@@ -87,14 +87,23 @@ def cost_total(d):
 
 
 def media_files(d):
+    """Fertige Clips: bevorzugt aus final/, sonst die Rohfassungen aus raw/."""
     out = []
-    fin = d / "final"
-    if fin.is_dir():
-        for f in sorted(fin.iterdir()):
-            if f.suffix.lower() in (".mp4", ".mov", ".jpg", ".jpeg", ".png"):
-                name = f.stem.replace("-labeled", "").replace("-sheet", "")
-                out.append({"format": name, "kind": "video" if f.suffix.lower() in (".mp4", ".mov") else "sheet",
-                            "url": f"/media/{d.name}/final/{f.name}"})
+    for unter in ("final", "raw"):
+        ordner = d / unter
+        if not ordner.is_dir():
+            continue
+        for f in sorted(ordner.iterdir()):
+            if f.suffix.lower() not in (".mp4", ".mov", ".jpg", ".jpeg", ".png"):
+                continue
+            if f.stem.endswith(("-small", "-strip", "-poster")):
+                continue
+            name = f.stem.replace("-labeled", "").replace("-sheet", "")
+            out.append({"format": name,
+                        "kind": "video" if f.suffix.lower() in (".mp4", ".mov") else "sheet",
+                        "url": f"/media/{d.name}/{unter}/{f.name}"})
+        if out:
+            break
     return out
 
 
@@ -102,12 +111,8 @@ def state(d):
     rs = render_state(d)
     jobs = (rs or {}).get("jobs", {})
     approved = load_json(d / "approved.json")
-    fin = d / "final"
-    labeled = sorted(fin.glob("*-labeled.*")) if fin.is_dir() else []
-    if labeled:
+    if jobs and all(j.get("status") == "done" for j in jobs.values()):
         step = "fertig"
-    elif jobs and all(j.get("status") == "done" for j in jobs.values()):
-        step = "gerendert"
     elif jobs and any(j.get("status") in ("submitted", "queued") for j in jobs.values()):
         step = "rendert"
     elif approved:

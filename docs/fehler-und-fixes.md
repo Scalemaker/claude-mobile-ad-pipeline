@@ -21,11 +21,11 @@ Kein Job wurde gestartet. Die Frage an den Operator weitergeben (Gratis-Kontinge
 **Fünf Clips sehen gleich aus.**
 Die Rahmen in `prompts/formats.md` sind zu ähnlich formuliert oder das Storyboard dominiert den Prompt. Rahmen schärfen: UGC = Handkamera und Fensterlicht, Cinematic = Steadicam und Anamorph, Reaction = Gesicht frontal und Produkt von unten, Mirror = Zitat des Zielkunden in den ersten drei Sekunden, Split = zwei Bildhälften.
 
-**Das Icon liegt unter der Reels-Aktionsleiste.**
-`position: "bottom-right"` benutzt statt `x: 14, y: 20`. Neu kennzeichnen, das Kontaktblatt zeigt die Leiste rot.
+**Das Icon liegt beim Kennzeichnen unter der Reels-Aktionsleiste.**
+Rechts unten ist bei Reels belegt. Setz es links oben, etwa bei 14 Prozent Breite und 20 Prozent Höhe. Das Kontaktblatt zeichnet die Leiste rot ein, dort siehst du es sofort.
 
 **Das Kontaktblatt meldet „Markierung FEHLT".**
-Der Clip wurde nach dem Kennzeichnen noch einmal durch ein Schnittprogramm exportiert. Reihenfolge: erst schneiden, dann kennzeichnen, dann hochladen. Oder die Datei ist noch die Higgsfield-Rohfassung.
+Entweder ist der Clip noch die Rohfassung, dann ist das richtig so. Oder er wurde nach dem Kennzeichnen noch einmal exportiert. Reihenfolge: erst schneiden, dann kennzeichnen, dann hochladen.
 
 **Ein Job von fünf bleibt „pending".**
 `jobs_wait` mit `timeout_seconds: 15` erneut aufrufen, so oft es `poll_after_seconds` sagt. Nicht neu einreichen, solange der Job läuft.

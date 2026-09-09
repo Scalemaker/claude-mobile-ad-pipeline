@@ -14,8 +14,8 @@ Ein echter Durchlauf der Pipeline an einer echten Marke, damit du siehst, was ra
 | Rebuild | Hook „Warum ich mir für die nächsten 50 Jahre keine Pfanne mehr kaufe.", 6 Shots, jede Aussage mit Beleg | `rebuild.md` |
 | Preis | 69 s Video ≈ 20,87 $ nach Listenpreis, Freigabe vor dem Lauf | `cost.md` |
 | Render | fünf Formate über fal.ai, Seedance 2.0 reference-to-video, Produktfreisteller als @Image1 | `prompts.md`, `raw/render.json` |
-| Label | EU-Icon plus XMP über den KI-Kennzeichnung-MCP, Position in der Reels-Safe-Zone | `final/*-labeled.mp4` |
-| Prüfen | Kontaktblatt je Clip mit Safe-Zone-L und Markierungsnachweis | `final/*-sheet.jpg` |
+| Kennzeichnen | nicht Teil der Pipeline, hier zum Zeigen mit dem Tool auf ki-kennzeichnen.de gemacht | `final/*-labeled.mp4` |
+| Prüfen | Kontaktblatt je Clip mit Safe-Zone-L | `final/*-sheet.jpg` |
 
 ## Warum fal.ai und nicht Higgsfield
 
@@ -40,7 +40,7 @@ Alle fünf Clips sind Erstversuche, kein Cherry-Picking. Der UGC-Clip liegt zwei
 ![Mirror-Hook](final/mirror-sheet.jpg)
 ![Split-Screen](final/split-sheet.jpg)
 
-Grün ist die nutzbare Reels-Zone, rot die Aktionsleiste, links oben das EU-Icon. Jede Datei in `final/` trägt die XMP-Markierung, das Kontaktblatt-Skript hat sie nachgewiesen.
+Grün ist die nutzbare Reels-Zone, rot die Aktionsleiste, links oben das EU-Icon. Das Kennzeichnen gehört nicht zur Pipeline, es ist der Schritt danach auf ki-kennzeichnen.de. Für diesen Lauf haben wir ihn mitgemacht, damit du siehst, wie das Ergebnis aussieht.
 
 ## Was der Lauf gekostet hat
 
@@ -48,4 +48,4 @@ fal-Guthaben vor dem Lauf 50,00 $, nach fünf Clips 29,06 $, also 20,94 $ für 6
 
 ## Was in brain.md gewandert ist
 
-Vier Einträge unter „funktioniert", drei unter „vermeiden", siehe `brand-stur/brain.md`. Die zwei wichtigsten: deutsche Dialoge nur als Kurzsätze, und Clips vor der Kennzeichnung unter 4 MB bringen.
+Vier Einträge unter „funktioniert", drei unter „vermeiden", siehe `brand-stur/brain.md`. Der wichtigste: deutsche Dialoge nur als Kurzsätze.

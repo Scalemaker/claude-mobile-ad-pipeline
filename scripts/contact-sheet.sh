@@ -1,7 +1,11 @@
 #!/usr/bin/env bash
 # Kontaktblatt für einen Clip: drei Frames (Anfang, Mitte, Ende) nebeneinander,
-# bei Hochformat mit eingezeichneter Reels-Safe-Zone, plus Nachweis der
-# XMP-Markierung im File.
+# bei Hochformat mit eingezeichneter Reels-Safe-Zone.
+#
+# Zusätzlich meldet es, ob eine maschinenlesbare KI-Markierung im File steckt.
+# Bei einem frisch gerenderten Clip fehlt sie, das ist richtig so: gekennzeichnet
+# wird nach dem Schnitt auf ki-kennzeichnen.de. Nach dem Kennzeichnen ist die
+# Zeile die Gegenprobe.
 #
 #   scripts/contact-sheet.sh clip.mp4 [out.jpg] [--no-zone]
 #
@@ -45,7 +49,7 @@ echo "Clip:        $IN (${W}x${H}, ${DUR}s)"
 if strings "$IN" | grep -q "Iptc4xmpExt:DigitalSourceType"; then
   echo "Markierung:  XMP/IPTC DigitalSourceType vorhanden"
 else
-  echo "Markierung:  FEHLT, Clip ist nicht maschinenlesbar gekennzeichnet"
+  echo "Markierung:  keine (bei einer Rohfassung normal, kennzeichnen kommt nach dem Schnitt)"
 fi
 [ "$FILTER" = "null" ] && echo "Safe Zone:   nicht eingezeichnet (Querformat oder --no-zone)" || echo "Safe Zone:   grün = nutzbar, rot = Reels-Aktionsleiste"
 echo "Kontaktblatt: $OUT"

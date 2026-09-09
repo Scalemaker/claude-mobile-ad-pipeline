@@ -42,13 +42,6 @@ if command -v claude >/dev/null; then
 fi
 [ "$routes" -eq 0 ] && fail "keine Render-Route einsatzbereit: entweder FAL_KEY eintragen oder Higgsfield verbinden"
 
-echo "Kennzeichnung"
-if command -v claude >/dev/null && claude mcp list 2>/dev/null | grep -qi "ki-kennzeichnung"; then
-  pass "ki-kennzeichnung-MCP eingetragen"
-else
-  fail "ki-kennzeichnung-MCP nicht verbunden: im Repo 'claude' starten, Server aus .mcp.json bestätigen, dann Browser-Login"
-fi
-
 echo "Markenkontext"
 found=0
 for b in "$ROOT"/brand/*/; do

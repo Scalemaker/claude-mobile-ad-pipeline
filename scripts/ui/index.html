@@ -32,7 +32,7 @@
     </details>
     <div class="card gate"><h2>Freigabe</h2><div class="in" id="gate"></div></div>
     <div class="card"><h2>Render</h2><div class="in"><div class="jobs" id="jobs"></div></div></div>
-    <div class="card"><h2>Ergebnis · gekennzeichnet</h2><div class="in" id="result"></div></div>
+    <div class="card"><h2>Ergebnis · Clips</h2><div class="in" id="result"></div></div>
   </div>
 </main>
 <script>
@@ -76,16 +76,16 @@ function md(src){
   closeList(); return out.join('');
 }
 
-const ORDER = ['teardown','briefing','freigegeben','rendert','gerendert','fertig'];
-const SHOWN = [['teardown','Teardown'],['briefing','Briefing'],['freigegeben','Freigabe'],['gerendert','Render'],['fertig','Gekennzeichnet']];
+const ORDER = ['teardown','briefing','freigegeben','rendert','fertig'];
+const SHOWN = [['teardown','Teardown'],['briefing','Briefing'],['freigegeben','Freigabe'],['rendert','Render'],['fertig','Fertig']];
 function steps(step){
   const idx = ORDER.indexOf(step);
   $('#steps').innerHTML = SHOWN.map(([k,label])=>{
     const ki = ORDER.indexOf(k);
-    const cls = idx>ki ? 'done' : (idx===ki || (k==='gerendert'&&step==='rendert') ? 'on' : '');
+    const cls = idx>ki ? 'done' : (idx===ki ? 'on' : '');
     return `<span class="${cls}">${label}</span>`;
   }).join('');
-  const pos = SHOWN.findIndex(([k])=> k===step || (k==='gerendert'&&step==='rendert'));
+  const pos = SHOWN.findIndex(([k])=> k===step);
   const label = (SHOWN[pos]||SHOWN[SHOWN.length-1])[1];
   $('#steps-compact').innerHTML = `${label} <b>· Schritt ${Math.max(pos,0)+1} von ${SHOWN.length}</b>`;
 }
@@ -125,10 +125,10 @@ async function load(id, force){
   fold('source', md(s.source)); fold('teardown', md(s.teardown)); fold('rebuild', md(s.rebuild));
 
   const ro = s.beispiel ? '<div class="warn">Beispiel-Lauf, schreibgeschützt. Er zeigt dir den Endzustand. Eigene Läufe legt Claude Code unter <code>runs/</code> an.</div>' : '';
-  const erledigt = (s.step==='fertig'||s.step==='gerendert');
+  const erledigt = (s.step==='fertig');
   if(erledigt && !s.approved){
     $('#gate').innerHTML = ro + `<div class="price" style="color:var(--ok)">erledigt</div>
-      <small style="color:var(--mut)">${s.cost_total?s.cost_total+' gekostet, ':''}alle Formate gerendert und gekennzeichnet</small>
+      <small style="color:var(--mut)">${s.cost_total?s.cost_total+' gekostet, ':''}alle Formate gerendert</small>
       <div class="md" style="margin-top:12px;font-size:14px">${md(s.cost)}</div>`;
   } else if(s.approved){
     $('#gate').innerHTML = ro + `<div class="price" style="color:var(--ok)">freigegeben</div>
@@ -163,8 +163,9 @@ async function load(id, force){
   const vids = (s.media||[]).filter(m=>m.kind==='video');
   const sheets = (s.media||[]).filter(m=>m.kind==='sheet');
   $('#result').innerHTML = vids.length
-    ? `<div class="tiles">${vids.map(v=>`<div class="tile"><video src="${v.url}" controls preload="metadata" playsinline></video><div class="cap"><b>${v.format}</b><i>✓ gekennzeichnet</i></div></div>`).join('')}</div>`
-      + (sheets.length?`<div class="sheet"><img src="${sheets[0].url}" alt="Kontaktblatt ${sheets[0].format}"><div class="hint" style="text-align:left;margin-top:6px">Kontaktblatt ${sheets[0].format}: grün ist die nutzbare Reels-Zone, rot die Aktionsleiste, links oben das EU-Icon.</div></div>`:'')
+    ? `<div class="tiles">${vids.map(v=>`<div class="tile"><video src="${v.url}" controls preload="metadata" playsinline></video><div class="cap"><b>${v.format}</b></div></div>`).join('')}</div>`
+      + (sheets.length?`<div class="sheet"><img src="${sheets[0].url}" alt="Kontaktblatt ${sheets[0].format}"><div class="hint" style="text-align:left;margin-top:6px">Kontaktblatt ${sheets[0].format}: grün ist die nutzbare Reels-Zone, rot die Aktionsleiste.</div></div>`:'')
+      + `<div class="fertig"><p><b>Danach am Laptop:</b> schneiden, dann auf <a href="https://ki-kennzeichnen.de" target="_blank" rel="noreferrer">ki-kennzeichnen.de</a> kennzeichnen, dann zu Meta als Entwurf. In dieser Reihenfolge, ein Export nach dem Kennzeichnen wirft die Markierung raus.</p></div>`
     : '<p class="empty">Noch keine gekennzeichneten Clips.</p>';
 }
 

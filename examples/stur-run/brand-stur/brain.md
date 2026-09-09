@@ -8,7 +8,6 @@
 
 ## Vermeiden
 - 2026-09-06 · stur-run · Längere deutsche Dialogzeilen in Seedance 2.0. Der 33-Wörter-Text des Rebuilds kam als Brei zurück („Beschaltung", „geiseelt", „Abgerecht und eingebählt", „Kein PFL"). Whisper-Transkript in `raw/`-Protokoll. Fix gemessen: Dialogformate nur mit ein bis zwei Kurzsätzen rendern, Hook und Proof als Untertitel im Schnitt setzen.
-- 2026-09-06 · stur-run · Clips über rund 4 MB an `label_video` schicken. Der KI-Kennzeichnung-MCP antwortet dann mit 413 (Cinematic 5,0 MB, Mirror 5,0 MB), oder kennzeichnet, gibt die Datei aber nicht zurück (gekennzeichnete Ausgabe über 4 MB). Vorher mit ffmpeg kleiner machen, dann hochladen. Die Grenze liegt an der Ausgabe des MCP, nicht am Input: der 15-s-Handkamera-Clip kam auch aus 2,2 MB Input als 4,6 MB zurück und musste auf 540×960 runter, die drei ruhigeren Clips liefen mit `-crf 24` bei 720p durch.
 - 2026-09-06 · stur-run · Im Reaction-Clip hat das Modell dem Steak Grillstreifen gegeben, obwohl die STUR-Pfanne einen glatten Boden hat. Prompt-Fix für den nächsten Lauf: „flat smooth skillet, no grill marks".
 
 ## Offen

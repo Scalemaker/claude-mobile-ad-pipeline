@@ -17,13 +17,13 @@ python3 scripts/ui.py --port 8000
 | links | `source.md`, `teardown.md`, `rebuild.md` des Laufs, als Text gesetzt |
 | Freigabe | die Summe aus `cost.md` und ein Knopf. Der Klick schreibt `approved.json` in den Lauf |
 | Render | Status je Format aus `render.json`, aktualisiert sich von selbst |
-| Ergebnis | die gekennzeichneten Clips zum Abspielen, dazu ein Kontaktblatt |
+| Ergebnis | die fertigen Clips zum Abspielen, dazu ein Kontaktblatt und der naechste Schritt |
 
 ## Was sie nicht tut
 
 - **Sie denkt nicht.** Sie nimmt die Ad entgegen und legt den Ordner an. Teardown und Rebuild schreibt Claude Code hinein, danach liest die Seite sie.
 - **Sie gibt nichts von allein aus.** Der Render startet erst nach Klick, und nur wenn `approved.json` und `prompts.json` da sind. Beides wird serverseitig geprüft, nicht im Browser.
-- **Sie kennzeichnet nicht.** Das läuft über den MCP in Claude Code, siehe `/label`.
+- **Sie kennzeichnet nicht.** Das machst du nach dem Schnitt selbst auf ki-kennzeichnen.de.
 - **Sie ist nicht aus dem Netz erreichbar.** Der Server bindet an 127.0.0.1.
 
 ## Läufe

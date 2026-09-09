@@ -18,6 +18,6 @@ Die Skills haben harte Regeln, siehe `CLAUDE.md`. Das hier sind die Fehler, die 
 
 **Die Bibliothek nicht vergammeln lassen.** Eine `ad_library_last_90_days.md` mit sechs Monate alten Einträgen zieht den Rebuild in die Vergangenheit. Einmal die Woche `scripts/rotate-library.py`, das dauert eine Minute.
 
-**Nicht nach dem Kennzeichnen exportieren.** Die Reihenfolge ist schneiden, dann kennzeichnen, dann hochladen. Ein Export danach wirft die maschinenlesbare Markierung wieder raus, das sichtbare Icon bleibt.
+**Das Kennzeichnen nicht vergessen und nicht in der falschen Reihenfolge machen.** Die Clips sind vollständig KI-generiert. Kennzeichnen kommt nach dem Schnitt und vor dem Upload, auf [ki-kennzeichnen.de](https://ki-kennzeichnen.de). Ein Export danach wirft die maschinenlesbare Markierung wieder raus.
 
-**Nicht so tun, als sei die Kennzeichnung eine Rechtsauskunft.** Die Pipeline setzt Icon und Markierung. Ob und welche Pflicht dich nach Art. 50 trifft, hängt an deiner Rolle und am Inhalt. Das entscheidest du oder deine Rechtsberatung, nicht ein Skill.
+**Nicht so tun, als sei ein Werkzeug eine Rechtsauskunft.** Ob und welche Pflicht dich nach Art. 50 trifft, hängt an deiner Rolle und am Inhalt. Das entscheidest du oder deine Rechtsberatung.

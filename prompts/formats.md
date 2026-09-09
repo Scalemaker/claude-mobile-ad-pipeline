@@ -42,6 +42,6 @@ product in use, synchronised actions, hard cut to full frame on the
 product at the belief-shift shot. [STORYBOARD]
 ```
 
-## Kennzeichnung je Format
+## Danach
 
-Alle fünf sind vollständig generiert: Icon `ai-generated-black` (oder `-white` auf dunklem Bild). Nur wenn ein eigener echter Quellclip über den Ad-Multiplier bearbeitet wurde, ist es `ai-modified-*`.
+Die fünf Clips sind vollständig KI-generiert. Wer sie veröffentlicht, kennzeichnet sie am Ende auf [ki-kennzeichnen.de](https://ki-kennzeichnen.de), nach dem Schnitt und vor dem Upload.

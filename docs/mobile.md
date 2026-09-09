@@ -24,11 +24,11 @@ Ganz ohne Mac.
 1. In der Claude-App ein Projekt anlegen: „Ad Pipeline · <Marke>".
 2. Den Text aus `prompts/orchestrator-system-prompt.md` als Projektanweisung einfügen.
 3. Die neun Dateien aus `brand/<marke>/` als Projektwissen hochladen.
-4. Die Connectoren Higgsfield und KI-Kennzeichnung im Projekt aktivieren.
+4. Den Connector Higgsfield im Projekt aktivieren.
 
-Dann: Ad in den Projektchat, Claude macht Teardown und Rebuild, du schreibst `freigeben`, Claude holt den Preis, du schreibst `freigeben`, Claude ruft Higgsfield und danach die Kennzeichnung auf. Alles in einem Chat.
+Dann: Ad in den Projektchat, Claude macht Teardown und Rebuild, du schreibst `freigeben`, Claude holt den Preis, du schreibst `freigeben`, Claude ruft Higgsfield auf. Alles in einem Chat.
 
-Was das kann: Teardown, Rebuild, Render, Kennzeichnung.
+Was das kann: Teardown, Rebuild, Render.
 Was das nicht kann: die Skripte (Kontaktblatt, Bibliothekspflege) laufen dort nicht, und `brain.md` musst du von Hand ins Projektwissen zurückspielen. Claude schlägt die Zeilen am Ende jedes Laufs vor.
 Was du wissen solltest: Der Chat wartet nicht im Hintergrund. Wenn ein Render länger dauert, schreibst du „status", und Claude fragt den Stand ab.
 

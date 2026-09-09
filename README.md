@@ -1,6 +1,6 @@
-# Mobile Ad Pipeline: Claude Code + KI-Kennzeichnung
+# Mobile Ad Pipeline für Claude Code
 
-Eine Winner-Ad des Wettbewerbers rein, fünf fertige und gekennzeichnete 9:16-Clips für dein eigenes Produkt raus. Du steuerst die Pipeline vom Handy, das Rendern läuft über ein Videomodell deiner Wahl, die Kennzeichnung nach Art. 50 EU AI Act über den KI-Kennzeichnung-MCP. Der Laptop kommt erst am Ende für den Feinschliff ins Spiel.
+Eine Winner-Ad des Wettbewerbers rein, fünf fertige 9:16-Clips für dein eigenes Produkt raus. Du steuerst die Pipeline vom Handy, das Rendern läuft über ein Videomodell deiner Wahl. Der Laptop kommt erst am Ende für den Feinschliff ins Spiel.
 
 Dieses Repo ist der komplette Bausatz: sechs Claude-Code-Skills, die Markenkontext-Vorlagen, der Orchestrator-Prompt für die Claude-App am Handy, die Prüfskripte und ein durchgerechneter Lauf an einer echten Marke.
 
@@ -12,10 +12,9 @@ Dieses Repo ist der komplette Bausatz: sechs Claude-Code-Skills, die Markenkonte
 | 2 | `/rebuild` | Baut auf denselben Knochen ein 6-Shot-Storyboard für dein Produkt, in deiner Stimme | Handy |
 | 3 | Freigabe | Du liest das Briefing, antwortest `freigeben`. Vorher siehst du den Preis für die Renders | Handy |
 | 4 | `/render` | Fünf Format-Varianten: UGC, Cinematic, Reaction, Mirror-Hook, Split-Screen | unterwegs |
-| 5 | `/label` | Jeder Clip bekommt das offizielle EU-Icon und die maschinenlesbare XMP/IPTC-Markierung, platziert innerhalb der Reels-Safe-Zone | unterwegs |
-| 6 | Prüfen | Kontaktblatt pro Clip mit eingezeichneter Safe Zone, Markierung wird im File nachgewiesen. Dann Schnittprogramm und Meta-Entwurf | Laptop |
+| 5 | Prüfen | Kontaktblatt pro Clip mit eingezeichneter Safe Zone. Dann Schnittprogramm, kennzeichnen, Meta-Entwurf | Laptop |
 
-`/pipeline` fährt die Schritte 1 bis 5 in einem Zug und hält nur an, bevor Geld ausgegeben wird.
+`/pipeline` fährt die Schritte 1 bis 4 in einem Zug und hält nur an, bevor Geld ausgegeben wird.
 
 ## Schnellstart
 
@@ -28,7 +27,7 @@ cp .env.example .env
 claude
 ```
 
-Beim ersten Start fragt Claude Code, ob es die MCP-Server aus `.mcp.json` laden darf. Ja sagen. Beide laufen über OAuth: beim ersten Aufruf eines Tools öffnet sich der Browser zum Login.
+Beim ersten Start fragt Claude Code, ob es den MCP-Server aus `.mcp.json` laden darf. Ja sagen. Er läuft über OAuth: beim ersten Aufruf eines Tools öffnet sich der Browser zum Login.
 
 **Render-Route wählen.** Für fal.ai einen Key auf [fal.ai/dashboard/keys](https://fal.ai/dashboard/keys) holen und als `FAL_KEY` in die `.env` schreiben. Für Higgsfield reicht der OAuth-Login des MCP-Servers. Beide gleichzeitig geht auch.
 
@@ -64,7 +63,7 @@ runs/2026-09-06-demo/
 ├── cost.md           der Preis, den du vor der Freigabe gesehen hast
 ├── prompts.json      die fünf Format-Prompts, wie sie ans Modell gingen
 ├── render.json       Job-IDs und Ergebnis-URLs je Format
-└── final/            gekennzeichnete Clips plus Kontaktblätter
+└── raw/              die fertigen Clips
 ```
 
 ## Ein echter Lauf zum Nachlesen
@@ -93,9 +92,9 @@ Dort gibst du die Wettbewerber-Ad rein, per Link, Transkript oder Datei. Das Coc
 
 ## So sieht die Prüfung aus
 
-![Kontaktblatt eines gekennzeichneten Testclips](docs/kontaktblatt-beispiel.jpg)
+![Kontaktblatt eines Testclips](docs/kontaktblatt-beispiel.jpg)
 
-Grün ist die nutzbare Reels-Zone, rot die Aktionsleiste, links oben das EU-Icon, gesetzt über den KI-Kennzeichnung-MCP. Der Clip dazu liegt als `docs/safe-zone-testclip-labeled.mp4` im Repo, die Rohfassung daneben. Probier es aus:
+Grün ist die nutzbare Reels-Zone, rot die Aktionsleiste. Links oben sitzt in diesem Beispiel das EU-Icon, gesetzt mit dem Kennzeichnungs-Tool. Probier es aus:
 
 ```bash
 scripts/contact-sheet.sh docs/safe-zone-testclip-labeled.mp4
@@ -105,7 +104,7 @@ scripts/contact-sheet.sh docs/safe-zone-testclip-labeled.mp4
 
 Damit du weißt, worauf du dich verlassen kannst:
 
-- **Verifiziert:** die Route über fal.ai (Seedance 2.0), die Kennzeichnung samt Nachweis der XMP-Markierung im File, die Safe-Zone-Geometrie, das Kontaktblatt, `check-setup.sh`, die Bibliothekspflege.
+- **Verifiziert:** die Route über fal.ai (Seedance 2.0), die Safe-Zone-Geometrie, das Kontaktblatt, `check-setup.sh`, die Bibliothekspflege.
 - **Gebaut, aber nicht end-to-end gelaufen:** die Route über den Higgsfield-MCP. Sie folgt der dokumentierten Tool-Beschreibung, mangels Guthaben fehlt der Beweis. Prüf dort die Antworten des Servers, statt sie vorauszusetzen.
 - **Nicht gemessen:** wie oft die fünf Formate über viele Läufe hinweg unterscheidbar bleiben. Wir haben einen Lauf, keine Statistik.
 
@@ -121,7 +120,6 @@ Drei Wege, alle drei funktionieren heute, keiner braucht einen Trick. Ausführli
 
 ## Was diese Pipeline von anderen unterscheidet
 
-- **Kennzeichnung ist ein Pipeline-Schritt, keine Nachfrage.** Seit dem 2. August 2026 gilt Art. 50 EU AI Act. Welche Pflicht dich trifft, hängt von deiner Rolle ab. Die Pipeline setzt Icon und Markierung auf jeden Clip, bevor er den Ordner verlässt. Ob damit deine Pflicht erfüllt ist, entscheidet dein Einzelfall, nicht ein Tool.
 - **Safe Zone ist Geometrie, keine Bitte.** Icon und Kontaktblatt arbeiten mit den ausgemessenen Meta-Safe-Zones. Reels ist dabei kein Rechteck, sondern ein L, weil die Aktionsleiste rechts hineinragt.
 - **Formate sind schwache Diversifikation.** Fünf Formate derselben Idee sind für Metas Auslieferung ein Kandidat mit fünf Gesichtern. `/rebuild --angles` baut stattdessen drei Rebuilds entlang der Kern-Angles Pain, Benefit, Proof. Das sind drei Kandidaten.
 - **Der Halt vor dem Geld ist eingebaut.** Kein Render startet ohne das Wort `freigeben`, und der Preis steht vorher im Chat.
@@ -129,18 +127,22 @@ Drei Wege, alle drei funktionieren heute, keiner braucht einen Trick. Ausführli
 ## Aufbau
 
 ```
-.claude/skills/     brand-setup, teardown, rebuild, render, label, pipeline
-.mcp.json           Higgsfield-MCP und KI-Kennzeichnung-MCP, Projekt-Scope
+.claude/skills/     brand-setup, teardown, rebuild, render, pipeline
+.mcp.json           Higgsfield-MCP, Projekt-Scope
 CLAUDE.md           die Regeln, nach denen Claude Code hier arbeitet
 brand/_template/    die neun Markendateien als Vorlage
 prompts/            Orchestrator-Prompt (Handy), Teardown, Rebuild, Format-Rahmen
 scripts/            ui (lokales Cockpit), check-setup, contact-sheet, render-fal, fal-upload, rotate-library, render-html
 docs/               mobile, grenzen, fehler-und-fixes, was-nicht-tun, post (Grafiken fürs Ausspielen)
-examples/stur-run/  ein echter Lauf mit fünf gerenderten, gekennzeichneten Clips
+examples/stur-run/  ein echter Lauf mit fünf gerenderten Clips
 ```
+
+## Danach: kennzeichnen
+
+Die Clips sind vollständig KI-generiert. Seit dem 2. August 2026 gilt Art. 50 EU AI Act, und je nach Rolle und Inhalt musst du das kenntlich machen. Dafür gibt es [ki-kennzeichnen.de](https://ki-kennzeichnen.de): offizielles EU-Icon setzen, maschinenlesbare Markierung ins File, direkt im Browser, kostenlos und ohne Anmeldung. Die Reihenfolge ist wichtig, erst schneiden, dann kennzeichnen, dann hochladen. Ein Export danach wirft die Markierung wieder raus.
 
 ## Lizenz
 
-MIT. Die EU-Icons gehören der Europäischen Kommission und kommen über den KI-Kennzeichnung-MCP.
+MIT.
 
 Gebaut von [Scalemaker](https://scalemaker.de). Das Kennzeichnungs-Tool dahinter: [ki-kennzeichnen.de](https://ki-kennzeichnen.de).
