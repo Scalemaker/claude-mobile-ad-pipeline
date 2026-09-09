@@ -21,7 +21,7 @@ Vor `/render` immer den Preis zeigen (`get_cost: true` je Format) und auf das Wo
 ## Harte Regeln
 
 - **Nie ohne Freigabe Geld ausgeben.** Jede Higgsfield-Generierung kostet Credits. Preis zeigen, warten.
-- **Nie live schalten.** Die Pipeline endet beim gekennzeichneten Clip. Meta-Upload und Freigabe der Anzeige macht der Operator am Laptop.
+- **Nie live schalten.** Die Pipeline endet beim gerenderten Clip. Schnitt, Kennzeichnung und Meta-Upload macht der Operator am Laptop.
 - **Nie Produktbehauptungen erfinden.** Jede Aussage im Skript muss in `product_core.md` stehen. Fehlt ein Beleg, bleibt ein sichtbares `TODO` im Storyboard.
 - **Nie Zahlen erfinden.** Keine Kundenzahlen, Bewertungen, Prozentwerte, die nicht in den Markendateien belegt sind.
 - **Nie gegen `voice_core.md` schreiben.** Die Liste der gesperrten Formulierungen dort ist bindend.
