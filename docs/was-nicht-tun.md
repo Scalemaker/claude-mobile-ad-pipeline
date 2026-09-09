@@ -8,7 +8,7 @@ Die Skills haben harte Regeln, siehe `CLAUDE.md`. Das hier sind die Fehler, die 
 
 **Den Teardown nicht überspringen.** Wer direkt umschreibt, kopiert die Oberfläche und lässt genau das liegen, was die Quelle wirken ließ. Mechanik, Bogen und Belief Shift sind der Grund, warum der Rebuild trägt.
 
-**Nicht live schalten.** Die Pipeline endet beim gekennzeichneten Clip. Schnitt, Untertitel und der Upload zu Meta bleiben bei dir, und zwar als Entwurf mit einer letzten Sichtung.
+**Nicht live schalten.** Die Pipeline endet beim gerenderten Clip. Schnitt, Kennzeichnung und der Upload zu Meta bleiben bei dir, und zwar als Entwurf mit einer letzten Sichtung.
 
 **Nicht für lange Markenfilme.** Der Ablauf ist für Direct Response von etwa 15 bis 30 Sekunden gebaut. Ein erzählender Film von einer Minute lebt von anderen Dingen als von Hook-Mechanik und Belief Shift.
 

@@ -166,7 +166,7 @@ async function load(id, force){
     ? `<div class="tiles">${vids.map(v=>`<div class="tile"><video src="${v.url}" controls preload="metadata" playsinline></video><div class="cap"><b>${v.format}</b></div></div>`).join('')}</div>`
       + (sheets.length?`<div class="sheet"><img src="${sheets[0].url}" alt="Kontaktblatt ${sheets[0].format}"><div class="hint" style="text-align:left;margin-top:6px">Kontaktblatt ${sheets[0].format}: grün ist die nutzbare Reels-Zone, rot die Aktionsleiste.</div></div>`:'')
       + `<div class="fertig"><p><b>Danach am Laptop:</b> schneiden, dann auf <a href="https://ki-kennzeichnen.de" target="_blank" rel="noreferrer">ki-kennzeichnen.de</a> kennzeichnen, dann zu Meta als Entwurf. In dieser Reihenfolge, ein Export nach dem Kennzeichnen wirft die Markierung raus.</p></div>`
-    : '<p class="empty">Noch keine gekennzeichneten Clips.</p>';
+    : '<p class="empty">Noch keine Clips.</p>';
 }
 
 /* Neue Ad: Ordner anlegen, Datei hochladen, danach den Befehl für Claude Code zeigen. */
