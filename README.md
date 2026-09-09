@@ -109,7 +109,7 @@ Damit du weißt, worauf du dich verlassen kannst:
 - **Gebaut, aber nicht end-to-end gelaufen:** die Route über den Higgsfield-MCP. Sie folgt der dokumentierten Tool-Beschreibung, mangels Guthaben fehlt der Beweis. Prüf dort die Antworten des Servers, statt sie vorauszusetzen.
 - **Nicht gemessen:** wie oft die fünf Formate über viele Läufe hinweg unterscheidbar bleiben. Wir haben einen Lauf, keine Statistik.
 
-Ehrliche Grenzen stehen in [docs/grenzen.md](docs/grenzen.md), die typischen Fehler samt Fix in [docs/fehler-und-fixes.md](docs/fehler-und-fixes.md).
+Ehrliche Grenzen stehen in [docs/grenzen.md](docs/grenzen.md), die typischen Fehler samt Fix in [docs/fehler-und-fixes.md](docs/fehler-und-fixes.md), und was du besser bleiben lässt in [docs/was-nicht-tun.md](docs/was-nicht-tun.md).
 
 ## Vom Handy aus
 
@@ -135,7 +135,7 @@ CLAUDE.md           die Regeln, nach denen Claude Code hier arbeitet
 brand/_template/    die neun Markendateien als Vorlage
 prompts/            Orchestrator-Prompt (Handy), Teardown, Rebuild, Format-Rahmen
 scripts/            ui (lokales Cockpit), check-setup, contact-sheet, render-fal, fal-upload, rotate-library, render-html
-docs/               mobile, grenzen, fehler-und-fixes, post (Grafik fürs Ausspielen)
+docs/               mobile, grenzen, fehler-und-fixes, was-nicht-tun, post (Grafiken fürs Ausspielen)
 examples/stur-run/  ein echter Lauf mit fünf gerenderten, gekennzeichneten Clips
 ```
 

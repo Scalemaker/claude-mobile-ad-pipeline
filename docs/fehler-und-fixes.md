@@ -3,6 +3,9 @@
 **Der Rebuild klingt wie die Quelle.**
 Zu nah am Text, zu weit weg von der Mechanik. Im Rebuild-Prompt steht „Knochen behalten, Inhalt neu". Test: beide Ads hintereinander lesen. Sagt jemand „kopiert", Hook und Sprache neu, Mechanik lassen.
 
+**Der Rebuild hat die Wirkung der Quelle verloren.**
+Er ist zu weit weg: eigener Hook, eigene Story, aber die Mechanik ist unterwegs verlorengegangen. Prüf gegen `teardown.md`, ob Hook-Mechanik, Überzeugungsmechanik, Form des Bogens und Belief-Shift-Struktur wirklich unverändert sind. Genau diese vier bleiben, alles andere wird neu. Wenn eine davon fehlt, den Rebuild noch einmal laufen lassen und die vier ausdrücklich benennen.
+
 **Der Rebuild klingt nach niemandem.**
 `brand/<marke>/` ist leer oder voller Vorlagen-Kommentare. `scripts/check-setup.sh` zeigt es. Ohne Ad-Historie und Stimme schreibt Claude Durchschnitt.
 
@@ -29,6 +32,9 @@ Der Clip wurde nach dem Kennzeichnen noch einmal durch ein Schnittprogramm expor
 
 **Keine Push-Nachricht am Handy.**
 Remote Control nicht verbunden oder Mac im Ruhezustand. Session in der Claude-App öffnen, Stand steht im Chat.
+
+**Der Schnitt frisst mehr Zeit als der Rest.**
+Musik, Untertitel und Feinschliff jedes Mal von Hand zu setzen dauert länger als die ganze Pipeline davor. Leg dir im Schnittprogramm eine Vorlage an: Untertitelstil, Musikbett, Auf- und Abblende. Danach ist der letzte Schritt ein Anwenden statt eines Aufbaus. Wichtig bleibt die Reihenfolge: erst schneiden, dann kennzeichnen, dann hochladen.
 
 **Der Operator gibt vier Stunden nicht frei.**
 Kein Problem für die Pipeline. Sie wartet. Der Halt vor dem Geldausgeben ist Absicht, kein Fehler. Wer eine Erinnerung will, nutzt eine Routine, die offene Briefings morgens auflistet.
